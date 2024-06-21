@@ -1,0 +1,2 @@
+# AIive
+UM-SJTU JI 2024SU ECE4410J Team AIive
