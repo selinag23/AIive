@@ -28,7 +28,7 @@ Team AIive
 
 ### Engine Architechture
 
-
+![Engine Architechture](https://github.com/selinag23/AIive/assets/171781619/bf22c8b4-5060-43fa-96a8-ab443ff51c1d)
 
 
 
