@@ -35,6 +35,7 @@ Team AIive
 
 
 
+
 # Model and Engine
 
 > Put a copy of your Storymap here.  List all components of your engine architectures and how they tie together. Draw a block diagram showing your data and control flows in the engine. For each block, describe how the functionalities will be implemented. If your app doesn't have its own engine, describe how you will use the OS sub-systems or 3rd-party SDKs to build your app. You can re-use your engine architecture slides from the DRAFT portion of this assignment, but they should be accompanied by descriptive explanation, e.g., the talk to give accompanying each slide.
@@ -129,6 +130,9 @@ Team AIive
 
 > Describe how your front-end would communicate with your engine: list and describe your APIs. This is only your initial design, you can change them again later, but you should start thinking about and designing how your front end will communicate with your engine. If you're using existing OS subsystem(s) or 3rd-party SDK(s) to implement your engine, describe how you will interact with these.
 
+
+### Overview
+
 **Request Parameters**
 | Key        | Location | Type   | Description      |
 | ---------- | -------- | ------ | ---------------- |
@@ -154,42 +158,178 @@ Team AIive
 | `contacts` | JSON |List of contacts basic info | headshot, name, brief description |
 
 
-**Example**
-~~~ 
-curl -b cookies.txt -c cookies.txt -X GET https://OUR_SERVER/recommendations/'
 
-{
-    "attribute_error": {
-        "acousticness": 0.1342,
-        "danceability": 0.2567,
-        "energy": 0.1144,
-        "instrumentalness": 0.021,
-        "liveness": 0.0324,
-        "loudness": 0.0084,
-        "speechiness": 0.0528,
-        "tempo": 0.0446,
-        "valence": 0.1538
-    },
-    "attribute_recommendations": [
-        "spotify:track:3joo84oco9CD4dBsKNWRRW",
-        "spotify:track:5DxlyLbSTkkKjJPGCoMo1O",
-        ...
-    ],
-    "genre_recommendations": [
-        "spotify:track:4MzXwWMhyBbmu6hOcLVD49",
-        "spotify:track:0bYg9bo50gSsH3LtXe2SQn",
-        ...
-    ],
-    "artist_recommendations": [
-        "spotify:track:2EjXfH91m7f8HiJN1yQg97",
-        "spotify:track:5o8EvVZzvB7oTvxeFB55UJ",
-        ...
-    ],
-    "url": "/recommendations/"
-}
-~~~
+### Calendar API
+
+**Create Event**
+- **URL**: `/api/events`
+- **Method**: `POST`
+- **Description**: Creates a new calendar event.
+- **Request Parameters**:
+  | Key           | Location | Type   | Description               |
+  | ------------- | -------- | ------ | ------------------------- |
+  | `title`       | Body     | String | Title of the event        |
+  | `description` | Body     | String | Description of the event  |
+  | `start_time`  | Body     | String | Start time of the event   |
+  | `end_time`    | Body     | String | End time of the event     |
+
+**Modify Event**
+- **URL**: `/api/events/:id`
+- **Method**: `PUT`
+- **Description**: Modifies an existing calendar event.
+- **Request Parameters**:
+  | Key           | Location | Type   | Description               |
+  | ------------- | -------- | ------ | ------------------------- |
+  | `id`          | URL      | String | ID of the event           |
+  | `title`       | Body     | String | Title of the event        |
+  | `description` | Body     | String | Description of the event  |
+  | `start_time`  | Body     | String | Start time of the event   |
+  | `end_time`    | Body     | String | End time of the event     |
+
+**Delete Event**
+- **URL**: `/api/events/:id`
+- **Method**: `DELETE`
+- **Description**: Deletes a calendar event.
+- **Request Parameters**:
+  | Key  | Location | Type   | Description   |
+  | ---- | -------- | ------ | ------------- |
+  | `id` | URL      | String | ID of the event |
+
+**Get Events**
+- **URL**: `/api/events`
+- **Method**: `GET`
+- **Description**: Retrieves all calendar events.
+- **Response**:
+  | Key      | Location | Type  | Description           |
+  | -------- | -------- | ----- | --------------------- |
+  | `events` | JSON     | Array | List of calendar events |
+
+### Reminder API
+
+**Create Reminder**
+- **URL**: `/api/reminders`
+- **Method**: `POST`
+- **Description**: Creates a new reminder.
+- **Request Parameters**:
+  | Key           | Location | Type   | Description               |
+  | ------------- | -------- | ------ | ------------------------- |
+  | `event_id`    | Body     | String | ID of the associated event |
+  | `remind_time` | Body     | String | Time to send the reminder  |
+
+**Modify Reminder**
+- **URL**: `/api/reminders/:id`
+- **Method**: `PUT`
+- **Description**: Modifies an existing reminder.
+- **Request Parameters**:
+  | Key           | Location | Type   | Description               |
+  | ------------- | -------- | ------ | ------------------------- |
+  | `id`          | URL      | String | ID of the reminder        |
+  | `event_id`    | Body     | String | ID of the associated event |
+  | `remind_time` | Body     | String | Time to send the reminder  |
+
+**Delete Reminder**
+- **URL**: `/api/reminders/:id`
+- **Method**: `DELETE`
+- **Description**: Deletes a reminder.
+- **Request Parameters**:
+  | Key  | Location | Type   | Description   |
+  | ---- | -------- | ------ | ------------- |
+  | `id` | URL      | String | ID of the reminder |
+
+**Get Reminders**
+- **URL**: `/api/reminders`
+- **Method**: `GET`
+- **Description**: Retrieves all reminders.
+- **Response**:
+  | Key        | Location | Type  | Description           |
+  | ---------- | -------- | ----- | --------------------- |
+  | `reminders`| JSON     | Array | List of reminders      |
+
+### Contact API
+
+**Add Contact**
+- **URL**: `/api/contacts`
+- **Method**: `POST`
+- **Description**: Adds a new contact.
+- **Request Parameters**:
+  | Key      | Location | Type   | Description             |
+  | -------- | -------- | ------ | ----------------------- |
+  | `name`   | Body     | String | Name of the contact     |
+  | `email`  | Body     | String | Email of the contact    |
+  | `phone`  | Body     | String | Phone number of the contact |
+  | `notes`  | Body     | String | Additional notes        |
+
+**Query Contact**
+- **URL**: `/api/contacts/:id`
+- **Method**: `GET`
+- **Description**: Retrieves contact information by ID.
+- **Request Parameters**:
+  | Key  | Location | Type   | Description       |
+  | ---- | -------- | ------ | ----------------- |
+  | `id` | URL      | String | ID of the contact |
+
+**Delete Contact**
+- **URL**: `/api/contacts/:id`
+- **Method**: `DELETE`
+- **Description**: Deletes a contact.
+- **Request Parameters**:
+  | Key  | Location | Type   | Description       |
+  | ---- | -------- | ------ | ----------------- |
+  | `id` | URL      | String | ID of the contact |
+
+**Get All Contacts**
+- **URL**: `/api/contacts`
+- **Method**: `GET`
+- **Description**: Retrieves all contacts.
+- **Response**:
+  | Key      | Location | Type  | Description           |
+  | -------- | -------- | ----- | --------------------- |
+  | `contacts` | JSON   | Array | List of contacts      |
+
+### Diary API
+
+**Add Entry**
+- **URL**: `/api/diaries`
+- **Method**: `POST`
+- **Description**: Adds a new diary entry.
+- **Request Parameters**:
+  | Key           | Location | Type   | Description               |
+  | ------------- | -------- | ------ | ------------------------- |
+  | `content`     | Body     | String | Content of the diary entry |
+  | `date`        | Body     | String | Date of the diary entry    |
+
+**Get Entries**
+- **URL**: `/api/diaries`
+- **Method**: `GET`
+- **Description**: Retrieves all diary entries.
+- **Response**:
+  | Key      | Location | Type  | Description           |
+  | -------- | -------- | ----- | --------------------- |
+  | `entries`| JSON     | Array | List of diary entries  |
+
+
 
 ## Third-Party SDKs
+
+**OpenAI API**
+- **Description**: Provides access to OpenAI's language models for natural language understanding and generation.
+- **Interaction**: The front end will send text inputs to the OpenAI API and receive processed language outputs for various functionalities such as chat responses and command processing.
+
+**Google Cloud Speech-to-Text API**
+- **Description**: Converts audio to text using Google's powerful neural network models.
+- **Interaction**: The app will use this API to convert user voice inputs into text, which can then be processed by the AI agent.
+
+**Microsoft Azure Speech API**
+- **Description**: Converts spoken audio to text, translates spoken languages, and synthesizes speech from text.
+- **Interaction**: Similar to Google Cloud Speech-to-Text, this API will be used to handle voice inputs and outputs within the app.
+
+**CalendarKit**
+- **Description**: A framework for creating a customizable calendar view in iOS apps.
+- **Interaction**: The front end will use CalendarKit to display calendar events and manage user interactions with the calendar.
+
+**EventKit**
+- **Description**: A framework for accessing and manipulating calendar and reminder data on iOS.
+- **Interaction**: The app will use EventKit to integrate with the user's calendar and reminders, allowing seamless creation, modification, and deletion of events and reminders.
 
 
 
@@ -198,8 +338,6 @@ curl -b cookies.txt -c cookies.txt -X GET https://OUR_SERVER/recommendations/'
 # View UI/UX
 
 > Leave this section blank for now.  You will populate it with your UI/UX design in a latter assignment.
-
-
 
 
 # Team Roster
