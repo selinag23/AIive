@@ -30,6 +30,80 @@ Team AIive
 ### Engine Architechture
 
 ![Engine Architechture](https://github.com/selinag23/AIive/assets/171781619/bf22c8b4-5060-43fa-96a8-ab443ff51c1d)
+#### Components of Engine Architecture
+
+1. **AI Agent**
+   - **Natural Language Communication Portal**
+     - Interface for users to interact with the app using natural language.
+   - **Search and Prepare for Storing Stuff to Database**
+     - Processes inputs and prepares data for storage.
+   - **Multi-Media Input**
+     - Handles different types of inputs (text, voice, images).
+
+2. **Calendar**
+   - **Manage Events**
+     - CRUD operations for calendar events.
+   - **Event Personalize Recommendation**
+     - Suggests events based on user preferences and behavior.
+   - **Sync Databases to Server**
+     - Ensures all calendar data is synchronized with the central server.
+
+3. **Reminder**
+   - **Make a To-Do List for Events**
+     - Creates tasks related to calendar events.
+   - **Remind Users Before the Deadline**
+     - Sends notifications to remind users of upcoming deadlines.
+   - **Intelligent Reminder**
+     - Uses AI to optimize reminder settings based on user behavior.
+   - **Advanced Settings for Reminder**
+     - Provides additional customization for reminders.
+
+4. **Contacts**
+   - **Identify Instructions for Contact Database**
+     - Processes user input to update contact information.
+   - **Interaction with Calendar Event**
+     - Links contacts with calendar events.
+   - **Speed Up Searches**
+     - Optimizes the search functionality for contacts.
+   - **Additional Info Handling**
+     - Manages supplementary contact information.
+   - **Security and Access Control**
+     - Ensures data privacy and controlled access to contact information.
+
+5. **Diary/Memo**
+   - **Add Memo & Diary**
+     - Allows users to create and store memos and diary entries.
+   - **Auto-Daily Diary**
+     - Automatically generates diary entries based on user activities.
+   - **Contacts-Memo Interaction**
+     - Links diary/memo entries with relevant contacts.
+
+#### How Components Tie Together
+
+1. **AI Agent Integration**
+   - **Natural Language Communication Portal** interacts with the **Calendar**, **Reminder**, **Contacts**, and **Diary/Memo** components to fetch, update, and display information based on user commands.
+   - **Search and Prepare for Storing Stuff to Database** handles preprocessing of input data for all modules.
+   - **Multi-Media Input** can be used across all components to accept different forms of user input.
+
+2. **Calendar and Reminder Synchronization**
+   - **Manage Events** in the **Calendar** component directly ties into **Make a To-Do List for Events** in the **Reminder** component.
+   - **Sync Databases to Server** ensures that both **Calendar** and **Reminder** data are up-to-date on the server.
+   - **Event Personalize Recommendation** uses data from both the **Calendar** and **Reminder** to suggest personalized events and reminders.
+
+3. **Contacts and Other Modules Interaction**
+   - **Identify Instructions for Contact Database** enables the **AI Agent** to update contact information.
+   - **Interaction with Calendar Event** allows calendar events to be linked with specific contacts, enhancing **Calendar** and **Contacts** integration.
+   - **Speed Up Searches** benefits from **AI Agent** optimizations for quick data retrieval.
+   - **Security and Access Control** ensures that sensitive contact information is protected, affecting how data is accessed across the app.
+
+4. **Diary/Memo Integration**
+   - **Add Memo & Diary** and **Auto-Daily Diary** can receive input from the **AI Agent**.
+   - **Contacts-Memo Interaction** links diary entries with relevant contacts, allowing cross-referencing between **Diary/Memo** and **Contacts**.
+
+#### Data Flow and Synchronization
+- The **Sync Databases to Server** functionality in the **Calendar** component ensures all data from the **Calendar**, **Reminder**, **Contacts**, and **Diary/Memo** is centralized and synchronized.
+- **Security and Access Control** in the **Contacts** component ensures secure data flow and access control for sensitive information.
+
 
 ### Data Flow
 ![db](https://github.com/selinag23/AIive/assets/116231204/beaa2d5a-ecfc-4964-8fe2-50164c925af9)
@@ -43,6 +117,7 @@ Team AIive
 | Key        | Location | Type   | Description      |
 | ---------- | -------- | ------ | ---------------- |
 | `username` | Session Cookie| String | Current User |
+| `event` | Session Cookie| String | Event Data |
 
 **Response Codes**
 | Code              | Description            |
@@ -52,18 +127,16 @@ Team AIive
 
 **Returns**
 
-*If no user is logged in or no posts created by user*
+*For logged-in users with 1 or more events created*
 | Key        | Location       | Type   | Description  |
 | ---------- | -------------- | ------ | ------------ |
-| `popular_songs` | JSON | List of Spotify Track IDs | Top 25 songs on Spotify in the United States |
+| `reminders` | JSON | List of to-do events | Events remains to-be-done in events database |
 
-*For logged-in users with 1 or more posts created*
+*For logged-in users with 1 or more contacts created*
 | Key        | Location       | Type   | Description  |
 | ---------- | -------------- | ------ | ------------ |
-| `attribute_recommendations` | JSON |List of Spotify Track IDs | Attribute-based recommendations (random genres) |
-| `genre_recommendations` | JSON | List of Spotify Track IDs | Attribute and genre-based recommendations based on user's favorite genres |
-| `artist_recommendations` | JSON | List of Spotify Track ID | Attribute and artist-based recommendations based on user's favorite artists | 
-| `attribute_error` | JSON | Dictionary | contains the average error % for each attribute between recommendation and the user's attribute vector. | 
+| `contacts` | JSON |List of contacts basic info | headshot, name, brief description |
+
 
 **Example**
 ~~~ 
