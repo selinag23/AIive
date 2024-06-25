@@ -7,30 +7,31 @@ Team AIive
 
 > Documentation on how to build and run your project. For now, simply list and provide a link to all 3rd-party tools, libraries, SDKs, APIs your project will rely on directly, that is, you don't need to list libraries that will be installed automatically as dependencies when installing the libraries you rely on directly. List both front-end and back-end dependencies.
 
-### Front End
 
-- **Semantic UI React:** A development framework that helps create beautiful, responsive layouts using human-friendly HTML. 
-- **Web Speech API:** Provides an interface to control speech synthesis and recognition, allowing the app to understand and produce spoken language.
-- **Axios:** A promise-based HTTP client for the browser and Node.js. It makes it easy to send asynchronous HTTP requests to REST endpoints and perform CRUD operations.
-- **CalendarKit:** A Swift-based framework for creating a customizable calendar view in iOS apps. 
-- **Reminder:** Apple's tutorial for adding and deleting reminders in an iOS app using EventKit. 
-- **EventKit:** A framework that provides access to calendar and reminder data, allowing the app to create, edit, and delete events and reminders. 
+### Front-End
 
-### Back End
+- **[Semantic UI React](https://react.semantic-ui.com/)**: A development framework that helps create beautiful, responsive layouts using human-friendly HTML.
+- **[Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)**: Provides an interface to control speech synthesis and recognition, allowing the app to understand and produce spoken language.
+- **[Axios](https://axios-http.com/)**: A promise-based HTTP client for the browser and Node.js. It makes it easy to send asynchronous HTTP requests to REST endpoints and perform CRUD operations.
+- **[CalendarKit](https://github.com/richardtop/CalendarKit)**: A Swift-based framework for creating a customizable calendar view in iOS apps.
+- **[Reminder](https://developer.apple.com/tutorials/app-dev-training/adding-and-deleting-reminders)**: Apple's tutorial for adding and deleting reminders in an iOS app using EventKit.
+- **[EventKit](https://medium.com/@rohit.jankar/using-swift-a-guide-to-adding-reminders-in-the-ios-reminder-app-with-the-eventkit-api-020b2e6b38bb)**: A framework that provides access to calendar and reminder data, allowing the app to create, edit, and delete events and reminders.
 
-- **SQLAlchemy:** A SQL toolkit and Object-Relational Mapping (ORM) library for Python. It provides tools to work with relational databases in a more Pythonic way. 
-- **SQLite:** A C library that provides a lightweight, disk-based database. It doesn't require a separate server process, making it easy to set up and use.
-- **OAuth 2.0:** An authorization framework that allows applications to obtain limited access to user accounts on an HTTP service.
-- **Elasticsearch:** A distributed, RESTful search and analytics engine capable of storing and searching large volumes of data. 
-- **OpenAI API:** Provides access to OpenAI's language models, enabling natural language understanding and generation in your application.
-- **PostgreSQL:** A powerful, open-source object-relational database system known for its reliability and feature set.
-- **Flask:** A lightweight WSGI web application framework for Python. It is designed to make getting started quick and easy, with the ability to scale up to complex applications.
-- **spaCy:** An open-source software library for advanced natural language processing in Python.
-- **NLTK:** The Natural Language Toolkit is a Python library for natural language processing. 
-- **Gensim:** A Python library for topic modeling and document similarity analysis using modern statistical machine learning. 
-- **Hugging Face Transformers:** A library that provides general-purpose architectures for Natural Language Understanding (NLU) and Natural Language Generation (NLG) with pretrained models.
-- **Google Cloud Speech-to-Text API:** Converts audio to text by applying powerful neural network models in an easy-to-use API.
-- **Microsoft Azure Speech API:** Converts spoken audio to text, translates spoken languages, and synthesizes speech from text. 
+### Back-End 
+
+- **[SQLAlchemy](https://www.sqlalchemy.org/)**: A SQL toolkit and Object-Relational Mapping (ORM) library for Python. It provides tools to work with relational databases in a more Pythonic way.
+- **[SQLite](https://www.sqlite.org/index.html)**: A C library that provides a lightweight, disk-based database. It doesn't require a separate server process, making it easy to set up and use.
+- **[OAuth 2.0](https://oauth.net/2/)**: An authorization framework that allows applications to obtain limited access to user accounts on an HTTP service.
+- **[Elasticsearch](https://www.elastic.co/elasticsearch/)**: A distributed, RESTful search and analytics engine capable of storing and searching large volumes of data.
+- **[OpenAI API](https://beta.openai.com/docs/)**: Provides access to OpenAI's language models, enabling natural language understanding and generation in your application.
+- **[PostgreSQL](https://www.postgresql.org/)**: A powerful, open-source object-relational database system known for its reliability and feature set.
+- **[Flask](https://flask.palletsprojects.com/)**: A lightweight WSGI web application framework for Python. It is designed to make getting started quick and easy, with the ability to scale up to complex applications.
+- **[spaCy](https://spacy.io/)**: An open-source software library for advanced natural language processing in Python.
+- **[NLTK](https://www.nltk.org/)**: The Natural Language Toolkit is a Python library for natural language processing.
+- **[Gensim](https://radimrehurek.com/gensim/)**: A Python library for topic modeling and document similarity analysis using modern statistical machine learning.
+- **[Hugging Face Transformers](https://huggingface.co/transformers/)**: A library that provides general-purpose architectures for Natural Language Understanding (NLU) and Natural Language Generation (NLG) with pretrained models.
+- **[Google Cloud Speech-to-Text API](https://cloud.google.com/speech-to-text)**: Converts audio to text by applying powerful neural network models in an easy-to-use API.
+- **[Microsoft Azure Speech API](https://azure.microsoft.com/en-us/services/cognitive-services/speech-to-text/)**: Converts spoken audio to text, translates spoken languages, and synthesizes speech from text.
 
 
 
