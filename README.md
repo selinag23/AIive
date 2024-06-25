@@ -24,12 +24,15 @@ Team AIive
 > Put a copy of your Storymap here.  List all components of your engine architectures and how they tie together. Draw a block diagram showing your data and control flows in the engine. For each block, describe how the functionalities will be implemented. If your app doesn't have its own engine, describe how you will use the OS sub-systems or 3rd-party SDKs to build your app. You can re-use your engine architecture slides from the DRAFT portion of this assignment, but they should be accompanied by descriptive explanation, e.g., the talk to give accompanying each slide.
 
 ### Storymap
+![StoryMap](https://github.com/selinag23/AIive/assets/116231204/a51476f9-e4b4-4409-8da3-9736f0984771)
 
 
 ### Engine Architechture
 
 ![Engine Architechture](https://github.com/selinag23/AIive/assets/171781619/bf22c8b4-5060-43fa-96a8-ab443ff51c1d)
 
+### Data Flow
+![db](https://github.com/selinag23/AIive/assets/116231204/beaa2d5a-ecfc-4964-8fe2-50164c925af9)
 
 
 # APIs and Controller
@@ -111,10 +114,6 @@ curl -b cookies.txt -c cookies.txt -X GET https://OUR_SERVER/recommendations/'
 
 
 # Team Roster
-
-> A list of team members and each member's contribution. You may simply list each member's full name for now, leaving the contribution description to the end of term.
-> 
-> Should you want to make your GitHub public at the end of term, what do you want visitors (potential employer) to know about your contribution to this project?
 
 **Aya Shinkawa:**
 
