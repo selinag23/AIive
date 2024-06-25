@@ -9,13 +9,28 @@ Team AIive
 
 ### Front End
 
+- **Semantic UI React:** A development framework that helps create beautiful, responsive layouts using human-friendly HTML. 
+- **Web Speech API:** Provides an interface to control speech synthesis and recognition, allowing the app to understand and produce spoken language.
+- **Axios:** A promise-based HTTP client for the browser and Node.js. It makes it easy to send asynchronous HTTP requests to REST endpoints and perform CRUD operations.
+- **CalendarKit:** A Swift-based framework for creating a customizable calendar view in iOS apps. 
+- **Reminder:** Apple's tutorial for adding and deleting reminders in an iOS app using EventKit. 
+- **EventKit:** A framework that provides access to calendar and reminder data, allowing the app to create, edit, and delete events and reminders. 
+
 ### Back End
 
-##### Contact Database
-- SQLAlchemy
-- OAuth 2.0
-- Elasticsearch
-- OpenAI API
+- **SQLAlchemy:** A SQL toolkit and Object-Relational Mapping (ORM) library for Python. It provides tools to work with relational databases in a more Pythonic way. 
+- **SQLite:** A C library that provides a lightweight, disk-based database. It doesn't require a separate server process, making it easy to set up and use.
+- **OAuth 2.0:** An authorization framework that allows applications to obtain limited access to user accounts on an HTTP service.
+- **Elasticsearch:** A distributed, RESTful search and analytics engine capable of storing and searching large volumes of data. 
+- **OpenAI API:** Provides access to OpenAI's language models, enabling natural language understanding and generation in your application.
+- **PostgreSQL:** A powerful, open-source object-relational database system known for its reliability and feature set.
+- **Flask:** A lightweight WSGI web application framework for Python. It is designed to make getting started quick and easy, with the ability to scale up to complex applications.
+- **spaCy:** An open-source software library for advanced natural language processing in Python.
+- **NLTK:** The Natural Language Toolkit is a Python library for natural language processing. 
+- **Gensim:** A Python library for topic modeling and document similarity analysis using modern statistical machine learning. 
+- **Hugging Face Transformers:** A library that provides general-purpose architectures for Natural Language Understanding (NLU) and Natural Language Generation (NLG) with pretrained models.
+- **Google Cloud Speech-to-Text API:** Converts audio to text by applying powerful neural network models in an easy-to-use API.
+- **Microsoft Azure Speech API:** Converts spoken audio to text, translates spoken languages, and synthesizes speech from text. 
 
 
 
