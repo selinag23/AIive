@@ -1,6 +1,5 @@
 import SwiftUI
 
-// Model to represent a memo
 struct Memo: Identifiable {
     var id = UUID()
     var title: String
@@ -8,32 +7,21 @@ struct Memo: Identifiable {
     var date: Date
 }
 
-// Main view to display the list of memos
 struct MemoView: View {
     @Binding var showChat: Bool
-    @State private var memos: [Memo] = [
-//        Memo(title: "Buy groceries", context: "Milk, Eggs, Bread, Butter", date: Date()),
-//        Memo(title: "Doctor appointment", context: "Discuss blood test results", date: Calendar.current.date(byAdding: .hour, value: -2, to: Date())!),
-//        Memo(title: "Meeting with team", context: "Review project progress", date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!),
-//        Memo(title: "Submit report", context: "Annual financial report submission", date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!),
-//        Memo(title: "Plan vacation", context: "Book flights and hotels", date: Calendar.current.date(byAdding: .hour, value: -48, to: Date())!)
-    ]
+    @State private var memos: [Memo] = []
     @State private var isAddingMemo = false
-    @State private var searchText = ""
-    
     
     var body: some View {
         NavigationView {
             VStack {
-                // Search bar
-                SearchBar(text: $searchText)
-                
-                // List of memos
                 List {
                     ForEach(groupedMemos.keys.sorted(by: >), id: \.self) { date in
                         Section(header: Text(formattedDate(date))) {
                             ForEach(groupedMemos[date]!) { memo in
-                                NavigationLink(destination: MemoDetailView(memo: $memos[getIndex(of: memo)])) {
+                                NavigationLink(destination: MemoDetailView(memo: $memos[getIndex(of: memo)], onUpdate: { updatedMemo in
+                                    updateMemo(updatedMemo)
+                                })) {
                                     VStack(alignment: .leading) {
                                         Text(memo.title)
                                             .font(.headline)
@@ -41,6 +29,13 @@ struct MemoView: View {
                                             .font(.caption)
                                     }
                                     .padding(.vertical, 4)
+                                }
+                                .swipeActions {
+                                    Button(role: .destructive) {
+                                        deleteMemo(memo)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
                                 }
                             }
                         }
@@ -50,7 +45,6 @@ struct MemoView: View {
             .navigationTitle("Memo")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                // Chat button
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         showChat = true
@@ -59,7 +53,6 @@ struct MemoView: View {
                             .font(.system(size: 18, weight: .bold))
                     }
                 }
-                // Add memo button
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
                         isAddingMemo = true
@@ -72,51 +65,57 @@ struct MemoView: View {
             .sheet(isPresented: $isAddingMemo) {
                 AddMemoView(memos: $memos)
             }
+            .onAppear {
+                memos = MemoDB.shared.fetchMemos()
+            }
         }
     }
     
-    // Group memos by date
     private var groupedMemos: [Date: [Memo]] {
         Dictionary(grouping: memos) { memo in
             Calendar.current.startOfDay(for: memo.date)
         }
     }
     
-    // Format date for section headers
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         return formatter.string(from: date)
     }
-    // Get the index of a memo in the memos array
+    
     private func getIndex(of memo: Memo) -> Int {
         return memos.firstIndex(where: { $0.id == memo.id })!
     }
-    // Filter memos based on search text
-    private func filteredMemos(for date: Date) -> [Memo] {
-        let memosForDate = groupedMemos[date] ?? []
-        if searchText.isEmpty {
-            return memosForDate
-        } else {
-            return memosForDate.filter { $0.title.localizedCaseInsensitiveContains(searchText) || $0.context.localizedCaseInsensitiveContains(searchText) }
+    
+    private func deleteMemo(_ memo: Memo) {
+        MemoDB.shared.deleteMemo(memo: memo)
+        memos.removeAll { $0.id == memo.id }
+    }
+    
+    private func updateMemo(_ memo: Memo) {
+        MemoDB.shared.updateMemo(memo: memo)
+        if let index = memos.firstIndex(where: { $0.id == memo.id }) {
+            memos[index] = memo
         }
     }
 }
 
-// Detail view to display and edit a memo
 struct MemoDetailView: View {
     @Binding var memo: Memo
+    var onUpdate: (Memo) -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(memo.title)
+            TextField("Title", text: $memo.title)
+                .onChange(of: memo.title) { newValue in
+                    onUpdate(memo)
+                }
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
             TextEditor(text: $memo.context)
                 .onChange(of: memo.context) { newValue in
-                    // Auto-save logic can be added here
-                    print("Memo context updated: \(newValue)")
+                    onUpdate(memo)
                 }
             
             Spacer()
@@ -127,7 +126,6 @@ struct MemoDetailView: View {
     }
 }
 
-// View to add a new memo
 struct AddMemoView: View {
     @Binding var memos: [Memo]
     @Environment(\.presentationMode) var presentationMode
@@ -150,6 +148,7 @@ struct AddMemoView: View {
                 presentationMode.wrappedValue.dismiss()
             }, trailing: Button("Save") {
                 let newMemo = Memo(title: title, context: context, date: Date())
+                MemoDB.shared.addMemo(memo: newMemo)
                 memos.append(newMemo)
                 presentationMode.wrappedValue.dismiss()
             })
@@ -157,44 +156,11 @@ struct AddMemoView: View {
     }
 }
 
-// DateFormatter extension for short time format
 extension DateFormatter {
     static var shortTimeFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         formatter.dateStyle = .none
         return formatter
-    }
-}
-
-
-// Custom view for search bar
-struct SearchBar: UIViewRepresentable {
-    @Binding var text: String
-
-    class Coordinator: NSObject, UISearchBarDelegate {
-        @Binding var text: String
-
-        init(text: Binding<String>) {
-            _text = text
-        }
-
-        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            text = searchText
-        }
-    }
-
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(text: $text)
-    }
-
-    func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
-        let searchBar = UISearchBar(frame: .zero)
-        searchBar.delegate = context.coordinator
-        return searchBar
-    }
-
-    func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
-        uiView.text = text
     }
 }

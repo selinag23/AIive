@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0344EAE52C4E3C7700477CCD /* MemoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0344EAE42C4E3C7700477CCD /* MemoDB.swift */; };
 		3990A52E2C4CBD10000132C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3990A52D2C4CBD10000132C4 /* Assets.xcassets */; };
 		3990A5312C4CBD10000132C4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3990A5302C4CBD10000132C4 /* Preview Assets.xcassets */; };
 		3990A5482C4CBDBD000132C4 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3990A5382C4CBDBD000132C4 /* MainView.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0344EAE42C4E3C7700477CCD /* MemoDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDB.swift; sourceTree = "<group>"; };
 		3990A5242C4CBD0E000132C4 /* AIive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AIive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3990A52D2C4CBD10000132C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3990A5302C4CBD10000132C4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				3990A5442C4CBDBD000132C4 /* EventDetailView.swift */,
 				3990A5382C4CBDBD000132C4 /* MainView.swift */,
 				3990A53E2C4CBDBD000132C4 /* MemoView.swift */,
+				0344EAE42C4E3C7700477CCD /* MemoDB.swift */,
 				3990A5402C4CBDBD000132C4 /* ReminderDetailView.swift */,
 				3990A53B2C4CBDBD000132C4 /* ReminderView.swift */,
 				3990A52D2C4CBD10000132C4 /* Assets.xcassets */,
@@ -191,6 +194,7 @@
 				3990A5502C4CBDBD000132C4 /* ReminderDetailView.swift in Sources */,
 				3990A5542C4CBDBD000132C4 /* EventDetailView.swift in Sources */,
 				3990A54E2C4CBDBD000132C4 /* MemoView.swift in Sources */,
+				0344EAE52C4E3C7700477CCD /* MemoDB.swift in Sources */,
 				3990A5532C4CBDBD000132C4 /* CalendarView.swift in Sources */,
 				3990A5562C4CBDBD000132C4 /* AIiveApp.swift in Sources */,
 				3990A54F2C4CBDBD000132C4 /* CreateEventView.swift in Sources */,
