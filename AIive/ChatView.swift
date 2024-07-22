@@ -101,9 +101,9 @@ struct MessageView: View {
                     Spacer()
                     Text(message.content)
                         .padding()
-                        .background(Color.blue)
+                        .background(Color.gray)
                         .foregroundColor(Color.white)
-                        .clipShape(Capsule())
+                        .clipShape(RoundedRectangle(cornerRadius: 30))
                 }
             } else {
                 HStack {
@@ -111,7 +111,7 @@ struct MessageView: View {
                         .padding()
                         .background(Color.black)
                         .foregroundColor(Color.white)
-                        .clipShape(Capsule())
+                        .clipShape(RoundedRectangle(cornerRadius: 30))
                     Spacer()
                 }
             }
