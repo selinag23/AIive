@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3958050D2C4E66A700CCF8BF /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 3958050C2C4E66A700CCF8BF /* OpenAI */; };
 		3990A52E2C4CBD10000132C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3990A52D2C4CBD10000132C4 /* Assets.xcassets */; };
 		3990A5312C4CBD10000132C4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3990A5302C4CBD10000132C4 /* Preview Assets.xcassets */; };
 		3990A5482C4CBDBD000132C4 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3990A5382C4CBDBD000132C4 /* MainView.swift */; };
@@ -26,6 +27,8 @@
 		3990A5562C4CBDBD000132C4 /* AIiveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3990A5462C4CBDBD000132C4 /* AIiveApp.swift */; };
 		3990A5572C4CBDBD000132C4 /* EditContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3990A5472C4CBDBD000132C4 /* EditContactView.swift */; };
 		3990A55B2C4CF2A0000132C4 /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 3990A55A2C4CF2A0000132C4 /* FMDB */; };
+		39C09DD82C4E3DC900F93303 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 39C09DD72C4E3DC900F93303 /* ChatGPTSwift */; };
+		39C09DDA2C4E3DC900F93303 /* SampleApp in Frameworks */ = {isa = PBXBuildFile; productRef = 39C09DD92C4E3DC900F93303 /* SampleApp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39C09DDA2C4E3DC900F93303 /* SampleApp in Frameworks */,
+				39C09DD82C4E3DC900F93303 /* ChatGPTSwift in Frameworks */,
+				3958050D2C4E66A700CCF8BF /* OpenAI in Frameworks */,
 				3990A55B2C4CF2A0000132C4 /* FMDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,6 +135,9 @@
 			name = AIive;
 			packageProductDependencies = (
 				3990A55A2C4CF2A0000132C4 /* FMDB */,
+				39C09DD72C4E3DC900F93303 /* ChatGPTSwift */,
+				39C09DD92C4E3DC900F93303 /* SampleApp */,
+				3958050C2C4E66A700CCF8BF /* OpenAI */,
 			);
 			productName = AIive;
 			productReference = 3990A5242C4CBD0E000132C4 /* AIive.app */;
@@ -161,6 +170,8 @@
 			mainGroup = 3990A51B2C4CBD0E000132C4;
 			packageReferences = (
 				3990A5592C4CF2A0000132C4 /* XCRemoteSwiftPackageReference "fmdb" */,
+				39C09DD62C4E3DC900F93303 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
+				3958050B2C4E66A700CCF8BF /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			productRefGroup = 3990A5252C4CBD0E000132C4 /* Products */;
 			projectDirPath = "";
@@ -416,6 +427,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3958050B2C4E66A700CCF8BF /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
 		3990A5592C4CF2A0000132C4 /* XCRemoteSwiftPackageReference "fmdb" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ccgus/fmdb";
@@ -424,13 +443,36 @@
 				minimumVersion = 2.7.7;
 			};
 		};
+		39C09DD62C4E3DC900F93303 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alfianlosari/ChatGPTSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3958050C2C4E66A700CCF8BF /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3958050B2C4E66A700CCF8BF /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
+		};
 		3990A55A2C4CF2A0000132C4 /* FMDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3990A5592C4CF2A0000132C4 /* XCRemoteSwiftPackageReference "fmdb" */;
 			productName = FMDB;
+		};
+		39C09DD72C4E3DC900F93303 /* ChatGPTSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39C09DD62C4E3DC900F93303 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
+			productName = ChatGPTSwift;
+		};
+		39C09DD92C4E3DC900F93303 /* SampleApp */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39C09DD62C4E3DC900F93303 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
+			productName = SampleApp;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
