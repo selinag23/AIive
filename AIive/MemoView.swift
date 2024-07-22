@@ -45,19 +45,23 @@ struct MemoView: View {
             .navigationTitle("Memo")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button(action: {
+                        isAddingMemo = true
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 18, weight: .bold))
+                    }
+                    Button(action: createSummaryMemo) {
+                        Image(systemName: "doc.text")
+                            .font(.system(size: 18, weight: .bold))
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         showChat = true
                     }) {
                         Image(systemName: "message")
-                            .font(.system(size: 18, weight: .bold))
-                    }
-                }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        isAddingMemo = true
-                    }) {
-                        Image(systemName: "plus")
                             .font(.system(size: 18, weight: .bold))
                     }
                 }
@@ -97,6 +101,25 @@ struct MemoView: View {
         if let index = memos.firstIndex(where: { $0.id == memo.id }) {
             memos[index] = memo
         }
+    }
+    
+    private func createSummaryMemo() {
+        let today = Date()
+        let events = DatabaseManager.shared.fetchEvents(for: today)
+        
+        var summary = ""
+        for (index, event) in events.enumerated() {
+            summary += """
+            Event \(index + 1)
+            "\(event.title)": "\(event.description)"
+            People Related: "\(event.peopleRelated)"
+            
+            """
+        }
+        
+        let newMemo = Memo(title: "Summary of the Day", context: summary, date: today)
+        MemoDB.shared.addMemo(memo: newMemo)
+        memos.append(newMemo)
     }
 }
 
