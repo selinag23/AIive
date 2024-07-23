@@ -1,3 +1,10 @@
+//
+//  MemoDB.swift
+//  AIive
+//
+//  Created by Aya Shinkawa on 2024/7/23.
+//
+
 import Foundation
 import FMDB
 
