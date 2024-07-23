@@ -6,6 +6,9 @@ class ChatController: ObservableObject {
     
     let openAI = OpenAI(apiToken: "sk-proj-INDPlGmgqFASXMpDSmfST3BlbkFJiNLL4ekvAZjeJdT375K4")
     
+    let initialPrompt = [Message(content: "You are a helpful assistant.", isUser: false)]
+    
+
     func sendNewMessage(content: String) {
         let userMessage = Message(content: content, isUser: true)
         self.messages.append(userMessage)
@@ -26,15 +29,88 @@ class ChatController: ObservableObject {
                 guard let choice = success.choices.first else {
                     return
                 }
-                guard let message = choice.message.content?.string else { return }
-                DispatchQueue.main.async {
-                    self.messages.append(Message(content: message, isUser: false))
+                guard let message = choice.message.content?.string else { 
+                    print("ERROR: message is not in string")
+                    return 
                 }
+
+                //let filter work
+                self.processBotReply(message)
+ 
             case .failure(let failure):
                 print(failure)
             }
         }
     }
+
+
+    func processBotReply(_ reply: String) {
+        // Parse the JSON string and handle messages based on the recipient
+        if let data = reply.data(using: .utf8) {
+            do {
+                if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String],
+                   let recipient = jsonObject["recipient"],
+                   let message = jsonObject["message"] {
+                    
+                    DispatchQueue.main.async {
+                        if recipient == "USER" {
+                            self.messages.append(Message(content: message, isUser: false))
+                        } else {
+                            // Handle message to SERVER
+                            let answer = self.processServerReply(data)
+
+                            self.messages.append(Message(content: answer, isUser: false))
+                        }
+                    }
+                }
+            } catch {
+                print("Failed to parse JSON reply: \(error)")
+            }
+        }
+    }
+    func processServerReply(_ reply: String) {
+        if let data = reply.data(using: .utf8) {
+            do {
+                if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let recipient = jsonObject["recipient"] as? String,
+                   recipient == "SERVER",
+                   let action = jsonObject["action"] as? String,
+                   let message = jsonObject["message"] as? String {
+                    
+                    switch action {
+                    case "INSERT":
+                        handleInsertAction(message: message)
+                    case "QUERY":
+                        handleQueryAction(message: message)
+                    default:
+                        print("Unknown action: \(action)")
+                    }
+                }
+            } catch {
+                print("Failed to parse server reply: \(error)")
+            }
+        }
+    }
+    
+    func handleInsertAction(message: String) {
+        // Process the INSERT action message
+        if let data = message.data(using: .utf8) {
+            do {
+                if let insertData = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                    // Handle the insertion of data
+                    print("Insert action with data: \(insertData)")
+                }
+            } catch {
+                print("Failed to parse INSERT message: \(error)")
+            }
+        }
+    }
+    
+    func handleQueryAction(message: String) {
+        // Process the QUERY action message
+        print("Query action with message: \(message)")
+    }
+
 }
 
 struct Message: Identifiable {
