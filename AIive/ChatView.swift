@@ -1,13 +1,17 @@
 import SwiftUI
 import OpenAI
 
+struct ChatMessage {
+    var role: String
+    var content: String
+}
+
 class ChatController: ObservableObject {
     @Published var messages: [Message] = []
     
     let openAI = OpenAI(apiToken: "sk-proj-INDPlGmgqFASXMpDSmfST3BlbkFJiNLL4ekvAZjeJdT375K4")
     
-    let initialPrompt = [Message(content: "You are a helpful assistant.", isUser: false)]
-    
+    let initialPrompt = ChatMessage(role: "system",content: "You act as the middleman between USER and a DATABASE, extract information from either user or database text. There are two database, Contacts and Events. Contacts database has following SCHEMA: ID, Name, Position, Organization, Phone, Email, SocialMedia, Description. Events database has following SCHEMA: EventID, Title, Date, StartTime, EndTime, Detail, PeopleRelated, Tag, AddReminder, Done. From now you will only ever respond with JSON, which only can contain object 'recipient', 'action', 'target', 'message'. 'recipient' can only be either 'USER' or 'SERVER'. 'action' can only be 'INSERTt' or 'QUERY'. 'target' can only be 'Contacts' or 'Events'. 'message' with recipient 'USER' should be natural language. 'message' with recipient 'SERVER' should be another json like text, following either database's SCHEMA. For example, when you want to address the user, you use the following format {\"recipient\": \"USER\", \"message\":\"message for the user\"}. when you are given information to be added to database, message should be like '{\"recipient\":\"SERVER\", \"action\":\"INSERT\",  \"target\":\"Events\",\"message\":\" {'Title':'Group discussion for Course Linear Algebra', 'Date':'July 22, 2024', 'StartTime':'9:00', 'EndTime':'11:00', 'Detail':'In Longbin building', 'PeopleRelated': ['Shane Rowlilng', 'Xiaofang Wang'], 'Tag': 'meeting', 'AddReminder': true, 'Done':false }\"}' ")
 
     func sendNewMessage(content: String) {
         let userMessage = Message(content: content, isUser: true)
@@ -16,10 +20,13 @@ class ChatController: ObservableObject {
     }
     
     func getBotReply() {
+        var queryMessages = self.messages.map {
+            ChatMessage(role: $0.isUser ? "user" : "assistant", content: $0.content)
+        }
+        queryMessages.insert(initialPrompt, at: 0)
+
         let query = ChatQuery(
-            messages: self.messages.map({
-                .init(role: .user, content: $0.content)!
-            }),
+            messages: queryMessages,
             model: .gpt3_5Turbo
         )
         
@@ -29,13 +36,13 @@ class ChatController: ObservableObject {
                 guard let choice = success.choices.first else {
                     return
                 }
-                guard let message = choice.message.content?.string else { 
+                guard let messageContent = choice.message.content?.string else { 
                     print("ERROR: message is not in string")
                     return 
                 }
 
                 //let filter work
-                self.processBotReply(message)
+                self.processBotReply(messageContent)
  
             case .failure(let failure):
                 print(failure)
@@ -50,8 +57,7 @@ class ChatController: ObservableObject {
             do {
                 if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String],
                    let recipient = jsonObject["recipient"],
-                   let message = jsonObject["message"] {
-                    
+                   let message = jsonObject["message"] { 
                     DispatchQueue.main.async {
                         if recipient == "USER" {
                             self.messages.append(Message(content: message, isUser: false))
@@ -68,20 +74,42 @@ class ChatController: ObservableObject {
             }
         }
     }
-    func processServerReply(_ reply: String) {
+
+    func processServerReply(_ reply: String)->String {
         if let data = reply.data(using: .utf8) {
             do {
                 if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                    let recipient = jsonObject["recipient"] as? String,
                    recipient == "SERVER",
                    let action = jsonObject["action"] as? String,
+                   let target = jsonObject["target"] as? String,
                    let message = jsonObject["message"] as? String {
                     
                     switch action {
                     case "INSERT":
-                        handleInsertAction(message: message)
+                        switch target{
+                        case "Contacts":
+                            handleInsertAction(message: message)
+                            return "Already insert to database Contact."
+                        case "Events":
+                            handleInsertAction(message: message)
+                            return "Already insert to database Events."
+                        default:
+                            print("Unknown target:\(target)")
+                        }
+
                     case "QUERY":
                         handleQueryAction(message: message)
+                        switch target{
+                        case "Contacts":
+                            handleQueryAction(message: message)
+                            return "Already query database Contact."
+                        case "Events":
+                            handleQueryAction(message: message)
+                            return "Already query database Events."
+                        default:
+                            print("Unknown target:\(target)")
+                        }
                     default:
                         print("Unknown action: \(action)")
                     }
@@ -97,7 +125,8 @@ class ChatController: ObservableObject {
         if let data = message.data(using: .utf8) {
             do {
                 if let insertData = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                    // Handle the insertion of data
+                    // Handle the insertion of Event or Contacts
+
                     print("Insert action with data: \(insertData)")
                 }
             } catch {
