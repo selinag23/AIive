@@ -9,13 +9,7 @@ struct Memo: Identifiable {
 
 struct MemoView: View {
     @Binding var showChat: Bool
-    @State private var memos: [Memo] = [
-        Memo(title: "Buy groceries", context: "Milk, Eggs, Bread, Butter", date: Date()),
-        Memo(title: "Doctor appointment", context: "Discuss blood test results", date: Calendar.current.date(byAdding: .hour, value: -2, to: Date())!),
-        Memo(title: "Meeting with team", context: "Review project progress", date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!),
-        Memo(title: "Submit report", context: "Annual financial report submission", date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!),
-        Memo(title: "Plan vacation", context: "Book flights and hotels", date: Calendar.current.date(byAdding: .hour, value: -48, to: Date())!)
-    ]
+    @State private var memos: [Memo] = []
     @State private var isAddingMemo = false
     
     var body: some View {
@@ -25,7 +19,9 @@ struct MemoView: View {
                     ForEach(groupedMemos.keys.sorted(by: >), id: \.self) { date in
                         Section(header: Text(formattedDate(date))) {
                             ForEach(groupedMemos[date]!) { memo in
-                                NavigationLink(destination: MemoDetailView(memo: $memos[getIndex(of: memo)])) {
+                                NavigationLink(destination: MemoDetailView(memo: $memos[getIndex(of: memo)], onUpdate: { updatedMemo in
+                                    updateMemo(updatedMemo)
+                                })) {
                                     VStack(alignment: .leading) {
                                         Text(memo.title)
                                             .font(.headline)
@@ -33,6 +29,13 @@ struct MemoView: View {
                                             .font(.caption)
                                     }
                                     .padding(.vertical, 4)
+                                }
+                                .swipeActions {
+                                    Button(role: .destructive) {
+                                        deleteMemo(memo)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
                                 }
                             }
                         }
@@ -42,6 +45,18 @@ struct MemoView: View {
             .navigationTitle("Memo")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button(action: {
+                        isAddingMemo = true
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 18, weight: .bold))
+                    }
+                    Button(action: createSummaryMemo) {
+                        Image(systemName: "doc.text")
+                            .font(.system(size: 18, weight: .bold))
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         showChat = true
@@ -50,17 +65,12 @@ struct MemoView: View {
                             .font(.system(size: 18, weight: .bold))
                     }
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        isAddingMemo = true
-                    }) {
-                        Image(systemName: "plus")
-                            .font(.system(size: 18, weight: .bold))
-                    }
-                }
             }
             .sheet(isPresented: $isAddingMemo) {
                 AddMemoView(memos: $memos)
+            }
+            .onAppear {
+                memos = MemoDB.shared.fetchMemos()
             }
         }
     }
@@ -80,21 +90,55 @@ struct MemoView: View {
     private func getIndex(of memo: Memo) -> Int {
         return memos.firstIndex(where: { $0.id == memo.id })!
     }
+    
+    private func deleteMemo(_ memo: Memo) {
+        MemoDB.shared.deleteMemo(memo: memo)
+        memos.removeAll { $0.id == memo.id }
+    }
+    
+    private func updateMemo(_ memo: Memo) {
+        MemoDB.shared.updateMemo(memo: memo)
+        if let index = memos.firstIndex(where: { $0.id == memo.id }) {
+            memos[index] = memo
+        }
+    }
+    
+    private func createSummaryMemo() {
+        let today = Date()
+        let events = DatabaseManager.shared.fetchEvents(for: today)
+        
+        var summary = ""
+        for (index, event) in events.enumerated() {
+            summary += """
+            Event \(index + 1)
+            "\(event.title)": "\(event.description)"
+            People Related: "\(event.peopleRelated)"
+            
+            """
+        }
+        
+        let newMemo = Memo(title: "Summary of the Day", context: summary, date: today)
+        MemoDB.shared.addMemo(memo: newMemo)
+        memos.append(newMemo)
+    }
 }
 
 struct MemoDetailView: View {
     @Binding var memo: Memo
+    var onUpdate: (Memo) -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(memo.title)
+            TextField("Title", text: $memo.title)
+                .onChange(of: memo.title) { newValue in
+                    onUpdate(memo)
+                }
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
             TextEditor(text: $memo.context)
                 .onChange(of: memo.context) { newValue in
-                    // Auto-save logic can be added here
-                    print("Memo context updated: \(newValue)")
+                    onUpdate(memo)
                 }
             
             Spacer()
@@ -127,6 +171,7 @@ struct AddMemoView: View {
                 presentationMode.wrappedValue.dismiss()
             }, trailing: Button("Save") {
                 let newMemo = Memo(title: title, context: context, date: Date())
+                MemoDB.shared.addMemo(memo: newMemo)
                 memos.append(newMemo)
                 presentationMode.wrappedValue.dismiss()
             })

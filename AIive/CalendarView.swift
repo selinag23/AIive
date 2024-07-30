@@ -14,126 +14,11 @@ struct CalendarEvent: Identifiable, Equatable {
     var done: Bool = false
 }
 
-class DatabaseManager {
-    static let shared = DatabaseManager()
-    private let database: FMDatabase
-    
-    private init() {
-        let fileURL = try? FileManager.default
-            .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            .appendingPathComponent("events.sqlite")
-        
-        guard let url = fileURL else {
-            fatalError("Unable to access the file URL for the database.")
-        }
-        
-        database = FMDatabase(url: url)
-        
-        if !database.open() {
-            fatalError("Unable to open the database.")
-        }
-        
-        do {
-            try database.executeUpdate("""
-                CREATE TABLE IF NOT EXISTS events (
-                    id TEXT PRIMARY KEY,
-                    title TEXT,
-                    date DATE,
-                    startTime DATE,
-                    endTime DATE,
-                    description TEXT,
-                    peopleRelated TEXT,
-                    tag TEXT,
-                    addReminder INTEGER,
-                    done INTEGER
-                )
-            """, values: nil)
-        } catch {
-            print("Failed to create table: \(error.localizedDescription)")
-        }
-    }
-    
-    func fetchEvents(for date: Date) -> [CalendarEvent] {
-        var events = [CalendarEvent]()
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let dateString = formatter.string(from: date)
-        
-        do {
-            let rs = try database.executeQuery("SELECT * FROM events WHERE date = ? ORDER BY tag", values: [dateString])
-            while rs.next() {
-                let event = CalendarEvent(
-                    id: UUID(uuidString: rs.string(forColumn: "id")!)!,
-                    title: rs.string(forColumn: "title")!,
-                    date: rs.date(forColumn: "date")!,
-                    startTime: rs.date(forColumn: "startTime")!,
-                    endTime: rs.date(forColumn: "endTime")!,
-                    description: rs.string(forColumn: "description")!,
-                    peopleRelated: rs.string(forColumn: "peopleRelated")!,
-                    tag: rs.string(forColumn: "tag")!,
-                    addReminder: rs.bool(forColumn: "addReminder"),
-                    done: rs.bool(forColumn: "done")
-                )
-                events.append(event)
-            }
-        } catch {
-            print("Failed to fetch events: \(error.localizedDescription)")
-        }
-        
-        return events
-    }
-    
-    func addEvent(_ event: CalendarEvent) {
-        do {
-            try database.executeUpdate("""
-                INSERT INTO events (id, title, date, startTime, endTime, description, peopleRelated, tag, addReminder, done)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, values: [
-                event.id.uuidString,
-                event.title,
-                event.date,
-                event.startTime,
-                event.endTime,
-                event.description,
-                event.peopleRelated,
-                event.tag,
-                event.addReminder ? 1 : 0,
-                event.done ? 1 : 0
-            ])
-        } catch {
-            print("Failed to add event: \(error.localizedDescription)")
-        }
-    }
-    
-    func updateEvent(_ event: CalendarEvent) {
-        do {
-            try database.executeUpdate("""
-                UPDATE events
-                SET title = ?, date = ?, startTime = ?, endTime = ?, description = ?, peopleRelated = ?, tag = ?, addReminder = ?, done = ?
-                WHERE id = ?
-            """, values: [
-                event.title,
-                event.date,
-                event.startTime,
-                event.endTime,
-                event.description,
-                event.peopleRelated,
-                event.tag,
-                event.addReminder ? 1 : 0,
-                event.done ? 1 : 0,
-                event.id.uuidString
-            ])
-        } catch {
-            print("Failed to update event: \(error.localizedDescription)")
-        }
-    }
-}
 
 struct CalendarView: View {
     @Binding var showChat: Bool
     @State private var selectedDate: Date? = Date()
-    @State private var events: [CalendarEvent] = DatabaseManager.shared.fetchEvents(for: Date())
+    @State private var events: [CalendarEvent] = DatabaseManager.shared.fetchAllEvents()
     @State private var isShowingCreateEventView = false
     
     var body: some View {
@@ -150,6 +35,14 @@ struct CalendarView: View {
                                     NavigationLink(destination: EditEventView(event: binding(for: event))) {
                                         HStack {
                                             VStack(alignment: .leading) {
+                                                if !event.tag.isEmpty {
+                                                    Text(event.tag)
+                                                        .font(.caption)
+                                                        .padding(5)
+                                                        .background(tagColor(for: event.tag))
+                                                        .cornerRadius(5)
+                                                        .foregroundColor(.white)
+                                                }
                                                 Text(event.title)
                                                     .font(.headline)
                                                 Text("\(formattedTime(event.startTime)) - \(formattedTime(event.endTime))")
@@ -258,3 +151,13 @@ struct CalendarDatePickerView: View {
 }
 
 
+func tagColor(for tag: String) -> Color {
+    switch tag {
+    case "Meeting":
+        return .blue
+    case "Daily":
+        return .green
+    default:
+        return .gray
+    }
+}

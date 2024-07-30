@@ -13,6 +13,7 @@ struct CreateEventView: View {
     @State private var description: String = ""
     @State private var peopleRelated: String = ""
     @State private var tag: String = ""
+    @State private var addReminder: Bool = false
     
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -58,6 +59,9 @@ struct CreateEventView: View {
                         Text("Tag:")
                         TextField("Tag", text: $tag)
                     }
+                    VStack(alignment: .leading, spacing: 10) {
+                        Toggle("Add to Reminder", isOn: $addReminder)
+                    }
                 }
                 
                 Button(action: createEvent) {
@@ -91,16 +95,25 @@ struct CreateEventView: View {
         }
         
         let newEvent = CalendarEvent(
+            id: UUID(), // Ensure the event has a unique ID
             title: title,
             date: date,
             startTime: startTime,
             endTime: endTime,
             description: description,
             peopleRelated: peopleRelated,
-            tag: tag
+            tag: tag,
+            addReminder: addReminder
         )
         events.append(newEvent)
         DatabaseManager.shared.addEvent(newEvent)
+        
+        // Find the most similar contact
+        if let mostSimilarContact = DatabaseManager.shared.findMostSimilarContact(name: peopleRelated) {
+            // Add the connection between the event and the contact
+            DatabaseManager.shared.addEventContactConnection(eventID: newEvent.id, contactID: mostSimilarContact.id)
+        }
+        
         presentationMode.wrappedValue.dismiss()
     }
 }
