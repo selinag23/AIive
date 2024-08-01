@@ -338,7 +338,7 @@ Team AIive
 # View UI/UX
 
 Designing the UI/UX for an AI agent that manages calendar, reminders, contacts, and memos, while adhering to iOS system guidelines, requires a focus on simplicity, style, and ease of use. The interface should leverage iOS's clean and minimalistic aesthetic, ensuring that users can navigate effortlessly. Key features like the calendar should present a clear and concise view of events, with easy-to-use navigation and quick access to detailed event information. Reminders should be visually distinct, utilizing simple toggles and intuitive input methods to set and manage tasks. Contacts should be organized in a clean, searchable format, with prominent action buttons for calling, messaging, or emailing. For memos, a sleek, note-taking interface with rich text support and organizational tools like folders or tags is essential. Throughout the design, consistent typography, spacing, and color schemes should be maintained to ensure a cohesive and stylish user experience, aligning with Apple's Human Interface Guidelines. This approach not only enhances usability but also ensures that the AI agent feels like a natural extension of the iOS ecosystem. The UI/UX design draft is shown below and the final product will show some minor changes but stick to the overall workflow and design.
-![UI/UX protytpe](images/UI/UX.png)
+![UI/UX protytpe](UI/UX.png)
 
 
 # Team Roster
