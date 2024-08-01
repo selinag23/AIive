@@ -343,14 +343,14 @@ Designing the UI/UX for an AI agent that manages calendar, reminders, contacts, 
 
 # Team Roster
 
-**Aya Shinkawa:**
+**Aya Shinkawa:** Memo Function
 
-**Anheng Wang:**
+**Anheng Wang:** Contact Function
 
-**Peiran Wang:**
+**Peiran Wang:** Reminder Function
 
-**Ruiqi Xu:**
+**Ruiqi Xu:** UI/UX Design
 
-**Xin Gong:**
+**Xin Gong:** AI Chat
 
-**Yan Lu:**
+**Yan Lu:** Calendar Function
