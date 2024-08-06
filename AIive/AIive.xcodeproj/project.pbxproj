@@ -29,6 +29,10 @@
 		C5A0DAD32C4E650000CB7EBF /* AIiveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A0DAD22C4E650000CB7EBF /* AIiveApp.swift */; };
 		C5A0DAD52C4F948600CB7EBF /* MemoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A0DAD42C4F948600CB7EBF /* MemoDB.swift */; };
 		C5A0DAD82C4F94BA00CB7EBF /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = C5A0DAD72C4F94BA00CB7EBF /* OpenAI */; };
+<<<<<<< Updated upstream:AIive/AIive.xcodeproj/project.pbxproj
+=======
+		C5F62C052C620AE60028C730 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F62C042C620AE60028C730 /* test.swift */; };
+>>>>>>> Stashed changes:AIive.xcodeproj/project.pbxproj
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +57,10 @@
 		C5A0DAB42C4E407000CB7EBF /* CreateReminderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateReminderView.swift; sourceTree = "<group>"; };
 		C5A0DAD22C4E650000CB7EBF /* AIiveApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AIiveApp.swift; sourceTree = "<group>"; };
 		C5A0DAD42C4F948600CB7EBF /* MemoDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDB.swift; sourceTree = "<group>"; };
+<<<<<<< Updated upstream:AIive/AIive.xcodeproj/project.pbxproj
+=======
+		C5F62C042C620AE60028C730 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
+>>>>>>> Stashed changes:AIive.xcodeproj/project.pbxproj
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +109,10 @@
 				C5A0DAB32C4E407000CB7EBF /* EditReminderView.swift */,
 				C5A0DAB12C4E406F00CB7EBF /* EventDetailView.swift */,
 				C5A0DAB02C4E406F00CB7EBF /* MainView.swift */,
+<<<<<<< Updated upstream:AIive/AIive.xcodeproj/project.pbxproj
+=======
+				C5F62C042C620AE60028C730 /* test.swift */,
+>>>>>>> Stashed changes:AIive.xcodeproj/project.pbxproj
 				C5A0DAAD2C4E406F00CB7EBF /* MemoView.swift */,
 				C5A0DAD42C4F948600CB7EBF /* MemoDB.swift */,
 				C5A0DAB22C4E406F00CB7EBF /* ReminderDetailView.swift */,
@@ -204,6 +216,10 @@
 				C5A0DABC2C4E407000CB7EBF /* EditEventView.swift in Sources */,
 				C5A0DAC42C4E407000CB7EBF /* CreateReminderView.swift in Sources */,
 				C5A0DABF2C4E407000CB7EBF /* CreateContactView.swift in Sources */,
+<<<<<<< Updated upstream:AIive/AIive.xcodeproj/project.pbxproj
+=======
+				C5F62C052C620AE60028C730 /* test.swift in Sources */,
+>>>>>>> Stashed changes:AIive.xcodeproj/project.pbxproj
 				C5A0DAC32C4E407000CB7EBF /* EditReminderView.swift in Sources */,
 				C57E9DA82C500020002277BD /* DatabaseManager.swift in Sources */,
 				C5A0DAC22C4E407000CB7EBF /* ReminderDetailView.swift in Sources */,

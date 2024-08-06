@@ -14,7 +14,14 @@ struct CreateEventView: View {
     @State private var peopleRelated: String = ""
     @State private var tag: String = ""
     @State private var addReminder: Bool = false
+<<<<<<< Updated upstream:AIive/AIive/CreateEventView.swift
     
+=======
+    @State private var reminderTime: Date = Calendar.current.date(byAdding: .hour, value: 1, to: Date()) ?? Date()
+    @State private var reminderHours: Int = 0
+    @State private var reminderMinutes: Int = 0
+    @State private var reminderInterval: TimeInterval = 0
+>>>>>>> Stashed changes:AIive/CreateEventView.swift
     @State private var showAlert = false
     @State private var alertMessage = ""
     
@@ -62,6 +69,46 @@ struct CreateEventView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Toggle("Add to Reminder", isOn: $addReminder)
                     }
+<<<<<<< Updated upstream:AIive/AIive/CreateEventView.swift
+=======
+                    /*if addReminder {
+                        VStack(alignment: .leading, spacing: 10) {
+                            DatePicker("When to Remind", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                        }
+                    }*/
+                    if addReminder {
+                        VStack(alignment: .leading, spacing: 10) {
+                            DatePicker("When to Remind", selection: Binding(
+                                get: { Date(timeIntervalSince1970: reminderInterval) },
+                                set: { reminderInterval = $0.timeIntervalSince1970 }
+                            ), displayedComponents: [.hourAndMinute])
+                                .datePickerStyle(WheelDatePickerStyle())
+                        }
+                    }
+                    /*if addReminder {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("Remind in advance:")
+                            
+                            HStack {
+                                Picker("Hours", selection: $reminderHours) {
+                                    ForEach(0..<12) { hour in
+                                        Text("\(hour)h").tag(hour)
+                                    }
+                                }
+                                .pickerStyle(WheelPickerStyle())
+                                .frame(width: 60)
+                                
+                                Picker("Minutes", selection: $reminderMinutes) {
+                                    ForEach(0..<60) { minute in
+                                        Text("\(minute)m").tag(minute)
+                                    }
+                                }
+                                .pickerStyle(WheelPickerStyle())
+                                .frame(width: 60)
+                            }
+                        }
+                    }*/
+>>>>>>> Stashed changes:AIive/CreateEventView.swift
                 }
                 
                 Button(action: createEvent) {
@@ -95,6 +142,7 @@ struct CreateEventView: View {
         }
         
         let newEvent = CalendarEvent(
+            id: UUID(), // Ensure the event has a unique ID
             title: title,
             date: date,
             startTime: startTime,
@@ -106,6 +154,14 @@ struct CreateEventView: View {
         )
         events.append(newEvent)
         DatabaseManager.shared.addEvent(newEvent)
+        
+        // Find the most similar contact
+        if let mostSimilarContact = DatabaseManager.shared.findMostSimilarContact(name: peopleRelated) {
+            // Add the connection between the event and the contact
+            DatabaseManager.shared.addEventContactConnection(eventID: newEvent.id, contactID: mostSimilarContact.id)
+            print("Successfully add event-contact connection: \(newEvent.title)-\(mostSimilarContact.name)")
+        }
+        
         presentationMode.wrappedValue.dismiss()
     }
 }

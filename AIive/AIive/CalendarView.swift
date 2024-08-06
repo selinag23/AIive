@@ -64,6 +64,9 @@ struct CalendarView: View {
                         }
                     }
                     .animation(.default, value: selectedDate)
+                    .refreshable(){
+                        events = DatabaseManager.shared.fetchAllEvents()
+                    }
                 } else {
                     Text("Select a date to view events")
                         .foregroundColor(.gray)
@@ -96,6 +99,9 @@ struct CalendarView: View {
                 },
                 alignment: .bottomTrailing
             )
+        }
+        .onAppear(){
+            events = DatabaseManager.shared.fetchAllEvents()
         }
     }
     
