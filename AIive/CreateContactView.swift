@@ -9,6 +9,7 @@ struct CreateContactView: View {
     @State private var socialMedia = ""
     @State private var description = ""
     @Environment(\.presentationMode) var presentationMode
+    var onSave: (Contact) -> Void
 
     var body: some View {
         Form {
@@ -48,8 +49,7 @@ struct CreateContactView: View {
             description: description
         )
         
-        // Here you would typically save the new contact to a database or similar.
-        print("Created Contact: \(newContact)")
+        onSave(newContact)
         presentationMode.wrappedValue.dismiss()
     }
 }

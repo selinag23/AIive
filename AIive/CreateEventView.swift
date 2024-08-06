@@ -13,7 +13,11 @@ struct CreateEventView: View {
     @State private var description: String = ""
     @State private var peopleRelated: String = ""
     @State private var tag: String = ""
-    
+    @State private var addReminder: Bool = false
+    @State private var reminderTime: Date = Calendar.current.date(byAdding: .hour, value: 1, to: Date()) ?? Date()
+    @State private var reminderHours: Int = 0
+    @State private var reminderMinutes: Int = 0
+    @State private var reminderInterval: TimeInterval = 0
     @State private var showAlert = false
     @State private var alertMessage = ""
     
@@ -58,6 +62,46 @@ struct CreateEventView: View {
                         Text("Tag:")
                         TextField("Tag", text: $tag)
                     }
+                    VStack(alignment: .leading, spacing: 10) {
+                        Toggle("Add to Reminder", isOn: $addReminder)
+                    }
+                    /*if addReminder {
+                        VStack(alignment: .leading, spacing: 10) {
+                            DatePicker("When to Remind", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                        }
+                    }
+                    if addReminder {
+                        VStack(alignment: .leading, spacing: 10) {
+                            DatePicker("When to Remind", selection: Binding(
+                                get: { Date(timeIntervalSince1970: reminderInterval) },
+                                set: { reminderInterval = $0.timeIntervalSince1970 }
+                            ), displayedComponents: [.hourAndMinute])
+                                .datePickerStyle(WheelDatePickerStyle())
+                        }
+                    }
+                    if addReminder {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("Remind in advance:")
+                            
+                            HStack {
+                                Picker("Hours", selection: $reminderHours) {
+                                    ForEach(0..<12) { hour in
+                                        Text("\(hour)h").tag(hour)
+                                    }
+                                }
+                                .pickerStyle(WheelPickerStyle())
+                                .frame(width: 60)
+                                
+                                Picker("Minutes", selection: $reminderMinutes) {
+                                    ForEach(0..<60) { minute in
+                                        Text("\(minute)m").tag(minute)
+                                    }
+                                }
+                                .pickerStyle(WheelPickerStyle())
+                                .frame(width: 60)
+                            }
+                        }
+                    }*/
                 }
                 
                 Button(action: createEvent) {
@@ -91,16 +135,30 @@ struct CreateEventView: View {
         }
         
         let newEvent = CalendarEvent(
+            id: UUID(), // Ensure the event has a unique ID
             title: title,
             date: date,
             startTime: startTime,
             endTime: endTime,
             description: description,
             peopleRelated: peopleRelated,
-            tag: tag
+            tag: tag,
+            addReminder: addReminder
         )
         events.append(newEvent)
         DatabaseManager.shared.addEvent(newEvent)
+        
+        // Find the most similar contact
+        let names = peopleRelated.components(separatedBy: ",")
+        for name in names {
+            if let mostSimilarContact = DatabaseManager.shared.findMostSimilarContact(name: name) {
+                DatabaseManager.shared.addEventContactConnection(eventID: newEvent.id, contactID: mostSimilarContact.id)
+                print("Successfully added event-contact connection: \(newEvent.title) - \(mostSimilarContact.name)")
+            } else {
+                print("No similar contact found for name: \(name)")
+            }
+        }
+        
         presentationMode.wrappedValue.dismiss()
     }
 }

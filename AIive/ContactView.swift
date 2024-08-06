@@ -11,16 +11,11 @@ struct Contact: Identifiable {
     var description: String
 }
 
+import SwiftUI
+
 struct ContactView: View {
     @Binding var showChat: Bool
-    @State private var contacts: [Contact] = [
-        Contact(name: "John Doe", position: "Manager", organization: "Company A", phone: "123-456-7890", email: "john@example.com", socialMedia: "@john_doe", description: "A good manager."),
-        Contact(name: "Jane Smith", position: "Engineer", organization: "Company B", phone: "098-765-4321", email: "jane@example.com", socialMedia: "@jane_smith", description: "An experienced engineer."),
-        Contact(name: "Alice Johnson", position: "Designer", organization: "Company C", phone: "555-123-4567", email: "alice@example.com", socialMedia: "@alice_johnson", description: "A creative designer."),
-        Contact(name: "Bob Brown", position: "Developer", organization: "Company D", phone: "555-765-4321", email: "bob@example.com", socialMedia: "@bob_brown", description: "A skillful developer."),
-        Contact(name: "Zara White", position: "Analyst", organization: "Company E", phone: "555-333-2222", email: "zara@example.com", socialMedia: "@zara_white", description: "An insightful analyst.")
-    ]
-    
+    @State private var contacts: [Contact] = []
     @State private var selectedLetter: String? = nil
     @State private var searchText: String = ""
     @State private var scrollViewProxy: ScrollViewProxy? = nil
@@ -54,7 +49,9 @@ struct ContactView: View {
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .padding(.horizontal)
                             
-                            NavigationLink(destination: CreateContactView()) {
+                            NavigationLink(destination: CreateContactView { newContact in
+                                addContactToDatabase(newContact)
+                            }) {
                                 Image(systemName: "plus")
                                     .font(.system(size: 18, weight: .bold))
                                     .padding(.trailing)
@@ -64,7 +61,9 @@ struct ContactView: View {
                         
                         List {
                             ForEach(filteredContacts) { contact in
-                                NavigationLink(destination: ContactDetailView(contact: contact)) {
+                                NavigationLink(destination: ContactDetailView(contact: contact, onSave: { updatedContact in
+                                    updateContactInDatabase(updatedContact)
+                                })) {
                                     HStack {
                                         VStack(alignment: .leading) {
                                             Text(contact.name)
@@ -92,6 +91,14 @@ struct ContactView: View {
                                                 .foregroundColor(.blue)
                                         }
                                         .buttonStyle(BorderlessButtonStyle())
+                                        
+                                        Button(action: {
+                                            deleteContactFromDatabase(contact)
+                                        }) {
+                                            Image(systemName: "trash.fill")
+                                                .foregroundColor(.red)
+                                        }
+                                        .buttonStyle(BorderlessButtonStyle())
                                     }
                                     .padding(.vertical, 8)
                                 }
@@ -113,6 +120,7 @@ struct ContactView: View {
                     }
                     .onAppear {
                         scrollViewProxy = proxy
+                        fetchContactsFromDatabase()
                     }
                     .onChange(of: selectedLetter) { newValue in
                         scrollToLetter(newValue)
@@ -121,7 +129,7 @@ struct ContactView: View {
             }
         }
     }
-    
+
     private var letters: [String] {
         let letters = contacts.map { String($0.name.prefix(1)) }
         return Array(Set(letters)).sorted()
@@ -137,15 +145,15 @@ struct ContactView: View {
         return sortedContacts
     }
     
-    func callContact(phoneNumber: String) {
+    private func callContact(phoneNumber: String) {
         print("Calling \(phoneNumber)")
     }
     
-    func messageContact(phoneNumber: String) {
+    private func messageContact(phoneNumber: String) {
         print("Messaging \(phoneNumber)")
     }
     
-    func scrollToLetter(_ letter: String?) {
+    private func scrollToLetter(_ letter: String?) {
         guard let letter = letter else { return }
         
         if let index = filteredContacts.firstIndex(where: { $0.name.hasPrefix(letter) }) {
@@ -156,4 +164,24 @@ struct ContactView: View {
             }
         }
     }
+    
+    private func fetchContactsFromDatabase() {
+        contacts = DatabaseManager.shared.fetchContacts()
+    }
+    
+    private func addContactToDatabase(_ contact: Contact) {
+        DatabaseManager.shared.addContact(contact)
+        fetchContactsFromDatabase()
+    }
+    
+    private func deleteContactFromDatabase(_ contact: Contact) {
+        DatabaseManager.shared.deleteContact(by: contact.id)
+        fetchContactsFromDatabase()
+    }
+    
+    private func updateContactInDatabase(_ contact: Contact) {
+        DatabaseManager.shared.updateContact(contact)
+        fetchContactsFromDatabase()
+    }
+
 }

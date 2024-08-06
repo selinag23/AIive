@@ -57,4 +57,7 @@ struct EditContactView: View {
         .navigationTitle("Edit Contact")
         .navigationBarTitleDisplayMode(.inline)
     }
+    
+    //private func updateDescription(_ contact: Contact) {
+    //}
 }

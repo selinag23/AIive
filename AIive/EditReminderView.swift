@@ -32,6 +32,7 @@ struct EditReminderView: View {
                 TextField("People Related", text: $peopleRelated)
                 TextField("Tag", text: $tag)
             }
+
             
             Button(action: saveChanges) {
                 Text("Save Changes")
