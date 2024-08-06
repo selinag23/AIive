@@ -11,7 +11,32 @@ class ChatController: ObservableObject {
     
     let openAI = OpenAI(apiToken: "sk-proj-INDPlGmgqFASXMpDSmfST3BlbkFJiNLL4ekvAZjeJdT375K4")
     
+<<<<<<< Updated upstream
     let initialPrompt = ChatMessage(role: "system",content: "You act as the middleman between USER and a DATABASE, extract information from either user or database text. There are two database, Contacts and Events. Contacts database has following SCHEMA: ID, Name, Position, Organization, Phone, Email, SocialMedia, Description. Events database has following SCHEMA: EventID, Title, Date, StartTime, EndTime, Detail, PeopleRelated, Tag, AddReminder, Done. From now you will only ever respond with JSON, which only can contain object 'recipient', 'action', 'target', 'message'. 'recipient' can only be either 'USER' or 'SERVER'. 'action' can only be 'INSERTt' or 'QUERY'. 'target' can only be 'Contacts' or 'Events'. 'message' with recipient 'USER' should be natural language. 'message' with recipient 'SERVER' should be another json like text, following either database's SCHEMA. For example, when you want to address the user, you use the following format {\"recipient\": \"USER\", \"message\":\"message for the user\"}. when you are given information to be added to database, message should be like '{\"recipient\":\"SERVER\", \"action\":\"INSERT\",  \"target\":\"Events\",\"message\":\" {'Title':'Group discussion for Course Linear Algebra', 'Date':'July 22, 2024', 'StartTime':'9:00', 'EndTime':'11:00', 'Detail':'In Longbin building', 'PeopleRelated': ['Shane Rowlilng', 'Xiaofang Wang'], 'Tag': 'meeting', 'AddReminder': true, 'Done':false }\"}' ")
+=======
+   let initialPrompt = Message(content: "You act as the middleman between USER and a DATABASE, extract information from either user or database text. From now you will only ever respond with JSON, which can only contain object 'recipient', 'action', 'target', 'message'. 'recipient' can only be either 'USER' or 'SERVER'. 'action' can only be 'INSERT' or 'QUERY'. 'target' can only be 'Contacts' or 'Events'. 'message' with recipient 'USER' should be natural language. 'message' with recipient 'SERVER' should be another JSON-like text, following either database's SCHEMA.  There are two databases, Contacts and Events. Contacts database has the following SCHEMA: ID, Name, Position, Organization, Phone, Email, SocialMedia, Description. Name cannot be blank. Events database has the following SCHEMA: EventID, Title, Date, StartTime, EndTime, Detail, PeopleRelated, Tag, AddReminder. AddReminder is true if you are told to set a reminder, otherwise false. Date, StartTime and EndTime should follow the sqlite Date format. Title, Detail,and Tag should be summarized by you if not given. Before INSERTing any information to server, you have to first ask USER for remaining information and confirmation. For example, when you want to address the user, you use the following format {\"recipient\": \"USER\", \"message\":\"message for the user\"}. When you are given information to be added to the database, the message should be like '{\"recipient\":\"SERVER\", \"action\":\"INSERT\",  \"target\":\"Events\",\"message\":\" {'Title':'Group discussion for Course Linear Algebra', 'Date':'2024-08-02', 'StartTime':'2024-08-02 09:00:00', 'EndTime':'2024-08-02 11:00:00', 'Detail':'In Longbin building', 'PeopleRelated': 'Shane Rowling, Xiaofang Wang', 'Tag': 'meeting', 'AddReminder': true}\"}' ", isUser: false, contact: [], time: [], display: true)
+    
+    // let initialPrompt = Message(content: "You act as the middleman between USER and a DATABASE, extract information from either user or database text. There are two databases, Contacts and Events. Contacts database has the following SCHEMA: ID, Name, Position, Organization, Phone, Email, SocialMedia, Description. Events database has the following SCHEMA: EventID, Title, Date, StartTime, EndTime, Detail, PeopleRelated, Tag, AddReminder, Done. From now you will only ever respond with JSON, which can only contain object 'recipient', 'action', 'target', 'message'. 'recipient' can only be either 'USER' or 'SERVER'. 'action' can only be 'INSERT' or 'QUERY'. 'target' can only be 'Contacts' or 'Events'. 'message' with recipient 'USER' should be natural language. 'message' with recipient 'SERVER' should be another JSON-like text, following either database's SCHEMA. For example, when you want to address the user, you use the following format {\"recipient\": \"USER\", \"message\":\"message for the user\"}. When you are given information to be added to the database, the message should be like '{\"recipient\":\"SERVER\", \"action\":\"INSERT\",  \"target\":\"Events\",\"message\":\" {'Title':'Group discussion for Course Linear Algebra', 'Date':'July 22, 2024', 'StartTime':'9:00', 'EndTime':'11:00', 'Detail':'In Longbin building', 'PeopleRelated': ['Shane Rowling', 'Xiaofang Wang'], 'Tag': 'meeting', 'AddReminder': true, 'Done':false }\"}' ", isUser: false, contact: [
+    //     Contact(
+    //         name: "John Doe",
+    //         position: "Software Engineer",
+    //         organization: "Tech Corp",
+    //         phone: "123-456-7890",
+    //         email: "john.doe@example.com",
+    //         socialMedia: "@johndoe",
+    //         description: "A skilled software engineer with 5 years of experience."
+    //     ),
+    //     Contact(
+    //         name: "Jane Doe",
+    //         position: "Project Manager",
+    //         organization: "Innovate Inc.",
+    //         phone: "987-654-3210",
+    //         email: "jane.doe@example.com",
+    //         socialMedia: "@janedoe",
+    //         description: "An experienced project manager leading multiple successful projects."
+    //     )
+    // ], time: [Date(), Date().addingTimeInterval(3600)], display: false)
+>>>>>>> Stashed changes
 
     func sendNewMessage(content: String) {
         let userMessage = Message(content: content, isUser: true)
@@ -140,12 +165,60 @@ class ChatController: ObservableObject {
         print("Query action with message: \(message)")
     }
 
+<<<<<<< Updated upstream
 }
 
 struct Message: Identifiable {
     var id: UUID = .init()
     var content: String
     var isUser: Bool
+=======
+    func parseEvent(jsonString: String) -> CalendarEvent? {
+    // Define a date formatter to parse date and time strings
+        let jsonStringNew = jsonString.replacingOccurrences(of: "'", with: "\"")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        // Convert the JSON string to Data
+        guard let data = jsonStringNew.data(using: .utf8) else { return nil }
+        
+        // Define a dictionary to represent the JSON structure
+        guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
+            let jsonDict = jsonObject as? [String: Any] else { return nil }
+        
+        // Extract values from the JSON dictionary
+        guard let title = jsonDict["Title"] as? String,
+            let dateString = jsonDict["Date"] as? String,
+            let startTimeString = jsonDict["StartTime"] as? String,
+            let endTimeString = jsonDict["EndTime"] as? String,
+            let peopleRelated = jsonDict["PeopleRelated"] as? [String],
+            let tag = jsonDict["Tag"] as? String,
+            let addReminder = jsonDict["AddReminder"] as? Bool,
+            let done = jsonDict["Done"] as? Bool else { return nil }
+        
+        // Parse dates using the date formatter
+        guard let date = dateFormatter.date(from: dateString + " 00:00:00"),
+            let startTime = dateFormatter.date(from: startTimeString),
+            let endTime = dateFormatter.date(from: endTimeString) else { return nil }
+        
+        // Extract description, which might be missing
+        let description = jsonDict["Detail"] as? String ?? ""
+        
+        // Create and return a CalendarEvent instance
+        return CalendarEvent(title: title,
+                            date: date,
+                            startTime: startTime,
+                            endTime: endTime,
+                            description: description,
+                            peopleRelated: peopleRelated,
+                            tag: tag,
+                            addReminder: addReminder,
+                            done: done)
+    }
+
+
+
+>>>>>>> Stashed changes
 }
 
 struct ChatView: View {

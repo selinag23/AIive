@@ -83,7 +83,7 @@ struct CreateEventView: View {
         }
     }
     
-    private func createEvent() {
+    func createEvent() {
         if title.isEmpty {
             alertMessage = "Title cannot be empty."
             showAlert = true
