@@ -117,7 +117,7 @@ class ChatController: ObservableObject {
                         //handleQueryAction(message: message)
                         switch target {
                         case "Contacts":
-                            let ContactReply = handleQueryContacts() 
+                            let ContactReply = handleQueryContacts()
                             self.messages.append(Message(content: ContactReply, isUser: true, contact: [], time: [], display: true))//test query
                             getBotReply()
                             return "Already query database Contact."
@@ -308,31 +308,7 @@ class ChatController: ObservableObject {
         return contactDetails
     }
 
-//Newly Added////////////////////////////////////
-//    func generateSummary(from eventsDetails: String, completion: @escaping (String) -> Void) {
-//        let userMessage = Message(content: eventsDetails, isUser: true, contact: [], time: [], display: false)
-//        self.messages.append(userMessage)
-//        
-//        let query = ChatQuery(
-//            messages: self.messages.map { .init(role: $0.isUser ? .user : .assistant, content: $0.content)! },
-//            model: .gpt3_5Turbo
-//        )
-//        
-//        openAI.chats(query: query) { result in
-//            switch result {
-//            case .success(let success):
-//                guard let choice = success.choices.first else { return }
-//                guard let messageContent = choice.message.content?.string else {
-//                    print("ERROR: message is not in string")
-//                    return
-//                }
-//                completion(messageContent)
-//            case .failure(let failure):
-//                print(failure)
-//                completion("Unable to generate summary. Please try again.")
-//            }
-//        }
-//    }
+
 
 }
 

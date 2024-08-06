@@ -131,7 +131,7 @@ struct MemoView: View {
                 }
                 """
             }
-
+            
             // Use MemoOpenAI to generate a natural language summary
             memoOpenAI.generateSummary(from: eventsDetails) { summary in
                 let newMemo = Memo(title: "Summary of the Day", context: summary, date: today)
@@ -139,6 +139,7 @@ struct MemoView: View {
                 memos.append(newMemo)
             }
         }
+    }
 }
 
 struct MemoDetailView: View {
