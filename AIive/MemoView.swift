@@ -1,4 +1,5 @@
 import SwiftUI
+import OpenAI
 
 struct Memo: Identifiable {
     var id = UUID()
@@ -11,6 +12,7 @@ struct MemoView: View {
     @Binding var showChat: Bool
     @State private var memos: [Memo] = []
     @State private var isAddingMemo = false
+    @StateObject private var memoOpenAI = MemoOpenAI()
     
     var body: some View {
         NavigationView {
@@ -103,23 +105,40 @@ struct MemoView: View {
         }
     }
     
+
+    
     private func createSummaryMemo() {
         let today = Date()
         let events = DatabaseManager.shared.fetchEvents(for: today)
         
-        var summary = ""
-        for (index, event) in events.enumerated() {
-            summary += """
-            Event \(index + 1)
-            "\(event.title)": "\(event.description)"
-            People Related: "\(event.peopleRelated)"
+        if events.isEmpty {
+            let newMemo = Memo(title: "Summary of the Day", context: "No Events Today!", date: today)
+            MemoDB.shared.addMemo(memo: newMemo)
+            memos.append(newMemo)
+        } else {
+            // Prepare the raw event details to be sent to ChatGPT
+            var eventsDetails = "Today's Events:\n"
+            for event in events {
+                eventsDetails += """
+                {
+                    "Title": "\(event.title)",
+                    "Date": "\(event.date)",
+                    "StartTime": "\(event.startTime)",
+                    "EndTime": "\(event.endTime)",
+                    "Description": "\(event.description)",
+                    "PeopleRelated": "\(event.peopleRelated)",
+                    "Tag": "\(event.tag)"
+                }
+                """
+            }
             
-            """
+            // Use MemoOpenAI to generate a natural language summary
+            memoOpenAI.generateSummary(from: eventsDetails) { summary in
+                let newMemo = Memo(title: "Summary of the Day", context: summary, date: today)
+                MemoDB.shared.addMemo(memo: newMemo)
+                memos.append(newMemo)
+            }
         }
-        
-        let newMemo = Memo(title: "Summary of the Day", context: summary, date: today)
-        MemoDB.shared.addMemo(memo: newMemo)
-        memos.append(newMemo)
     }
 }
 

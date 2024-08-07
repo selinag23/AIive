@@ -58,6 +58,6 @@ struct EditContactView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    private func updateDescription(_ contact: Contact) {
-    }
+    //private func updateDescription(_ contact: Contact) {
+    //}
 }

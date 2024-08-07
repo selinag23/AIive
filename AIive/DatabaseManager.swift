@@ -116,7 +116,7 @@ class DatabaseManager {
                     done: rs.bool(forColumn: "done")
                 )
                 events.append(event)
-                print("Fetched event: \(event)")
+                //print("Fetched event: \(event)")
             }
         } catch {
             print("Failed to fetch events: \(error.localizedDescription)")
@@ -134,9 +134,9 @@ class DatabaseManager {
         
         let midnight = resetTimeToMidnight(date: date)
         
-        print("Show the date looks like: \(date)")
-        print("Show the midnight date looks like: \(midnight!)")
-        print("Fetching events for date: \(dateString)")
+        //print("Show the date looks like: \(date)")
+        //print("Show the midnight date looks like: \(midnight!)")
+        //print("Fetching events for date: \(dateString)")
         do {
             let rs = try database.executeQuery("SELECT * FROM events WHERE date <= ? AND date >= ? ORDER BY tag", values: [date, midnight!])//测试，但恰好能用
             while rs.next() {
@@ -153,7 +153,7 @@ class DatabaseManager {
                     done: rs.bool(forColumn: "done")
                 )
                 events.append(event)
-                print("Fetched event: \(event)")
+                //print("Fetched event: \(event)")
             }
         } catch {
             print("Failed to fetch events: \(error.localizedDescription)")
@@ -384,9 +384,9 @@ class DatabaseManager {
                 highestSimilarity = similarity
                 mostSimilarContact = contact
             }
-            else {
-                print("There's no similar contact existed.")
-            }
+            //else {
+            //    print("There's no similar contact existed.")
+            //}
         }
         
         return mostSimilarContact
@@ -421,6 +421,62 @@ class DatabaseManager {
         } catch {
             print("Failed to delete event-contact connection: \(error.localizedDescription)")
         }
+    }
+    
+    func findContactEventsString(for contact: Contact) -> String {
+        var events = [CalendarEvent]()
+        var resultString = "Events for \(contact.name):\n"
+
+        // SQL query to find all events associated with the contact
+        let query = """
+        SELECT events.*
+        FROM events
+        INNER JOIN EventsContactsConnect ON events.id = EventsContactsConnect.eventID
+        WHERE EventsContactsConnect.contactID = ?
+        """
+
+        do {
+            let rs = try database.executeQuery(query, values: [contact.id.uuidString])
+            while rs.next() {
+                let event = CalendarEvent(
+                    id: UUID(uuidString: rs.string(forColumn: "id")!)!,
+                    title: rs.string(forColumn: "title")!,
+                    date: rs.date(forColumn: "date")!,
+                    startTime: rs.date(forColumn: "startTime")!,
+                    endTime: rs.date(forColumn: "endTime")!,
+                    description: rs.string(forColumn: "description")!,
+                    peopleRelated: rs.string(forColumn: "peopleRelated")!,
+                    tag: rs.string(forColumn: "tag")!,
+                    addReminder: rs.bool(forColumn: "addReminder"),
+                    done: rs.bool(forColumn: "done")
+                )
+                events.append(event)
+            }
+        } catch {
+            return "Failed to fetch contact events: \(error.localizedDescription)"
+        }
+
+        // Construct a string with all event details
+        if events.isEmpty {
+            resultString += "No events found for this contact."
+        } else {
+            for event in events {
+                resultString += """
+                
+                Event Title: \(event.title)
+                Date: \(event.date)
+                Start Time: \(event.startTime)
+                End Time: \(event.endTime)
+                Description: \(event.description)
+                People Related: \(event.peopleRelated)
+                Tag: \(event.tag)
+                Reminder Set: \(event.addReminder ?"Yes" : "No")
+                Completed: \(event.done ? "Yes" : "No")
+                """
+            }
+        }
+
+        return resultString
     }
     
 }

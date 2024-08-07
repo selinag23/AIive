@@ -3,10 +3,10 @@ import OpenAI
 
 
 // 定义 ChatMessage 结构体
-struct ChatMessage {
+/*struct ChatMessage {
     var role: String
     var content: String
-}
+}*/
 
 // 定义 Message 结构体
 struct Message: Identifiable {
@@ -88,6 +88,7 @@ class ChatController: ObservableObject {
                 if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String],
                    let recipient = jsonObject["recipient"],
                    let message = jsonObject["message"] {
+                    print("message:\(message)")
                     DispatchQueue.main.async {
                         if recipient == "USER" {
                             self.messages.append(Message(content: message, isUser: false, contact: [], time: [], display: true))
@@ -281,14 +282,13 @@ class ChatController: ObservableObject {
                 if let messageData = messageString.data(using: .utf8),
                 let message = try JSONSerialization.jsonObject(with: messageData, options: []) as? [String: Any] {
                     
-                    guard let name = message["Name"] as? String,
-                        let position = message["Position"] as? String,
-                        let organization = message["Organization"] as? String,
-                        let phone = message["Phone"] as? String else {
+                    guard let name = message["Name"] as? String else {
                         print("Error: Missing or invalid fields in JSON")
                         return nil
                     }
-                    
+                    let position = message["Position"] as? String ?? ""
+                    let organization = message["Organization"] as? String ?? ""
+                    let phone = message["Phone"] as? String ?? ""
                     let email = message["Email"] as? String ?? ""
                     let socialMedia = message["SocialMedia"] as? String ?? ""
                     let description = message["Description"] as? String ?? ""

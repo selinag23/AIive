@@ -1,4 +1,5 @@
 import SwiftUI
+import OpenAI
 
 struct ContactDetailView: View {
     var contact: Contact
@@ -97,8 +98,48 @@ struct ContactDetailView: View {
         }
         .navigationBarTitle("Edit Contact", displayMode: .inline)
     }
+    /*
+    private func updateDescription() {
+        Task {
+            do {
+                let newDescription = try await BotDescription(contact: contact)
+                print("new description is \(newDescription)")
+                self.description = newDescription
+            } catch {
+                print("Failed to update description: \(error)")
+            }
+        }
+    }*/
     
-    private func updateDescription(){
+    // Function to format a contact's description using OpenAI's API
+    private func updateDescription() {
+        let openAIcontact = OpenAI(apiToken: "sk-proj-INDPlGmgqFASXMpDSmfST3BlbkFJiNLL4ekvAZjeJdT375K4")
+        let currentDescription = contact.description + DatabaseManager.shared.findContactEventsString(for: contact)
+        print("current description is: \(currentDescription)")
+        let prompt = currentDescription + """
+                Organize the above description in natural language but with clear attribute and content pair for example:
+                    Impression: positive attitude
+                    Involved events: \n
+                    Event A with person B on Date, \n Event C with person D on Date ."
+                    Ensure each attribute and content pair, and new event is on a new line.
+                    Only return the new description and no other any words.
+            """
+        let query = ChatQuery(messages: [.init(role: .user, content: prompt)!], model: .gpt3_5Turbo)
         
+        openAIcontact.chats(query: query) { result in
+            switch result {
+            case .success(let success):
+                guard let choice = success.choices.first else { return }
+                guard let messageContent = choice.message.content?.string else {
+                    print("ERROR: message is not in string")
+                    return
+                }
+                print("LINE 73 REPLY:\(messageContent)")
+                //处理messageContent
+                self.description = currentDescription + "\n" + messageContent//.trimmingCharacters(in: .whitespacesAndNewlines)
+            case .failure(let failure):
+                print(failure)
+            }
+        }
     }
 }
