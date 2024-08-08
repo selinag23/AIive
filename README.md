@@ -31,6 +31,29 @@ Team AIive
    - Enhanced user experience by providing an intelligent, natural language summary of daily activities.
 
 ## Anheng Wang: *Contact Function*
+#### Design
+1. Contact Database Schema
+   - Designed and implemented the database schema for managing contacts, ensuring efficient storage and retrieval of contact information.
+   - Established relationships between contacts and events using an intermediary table to maintain the connections between them.
+
+2. Work for the team
+   - Integrated the contact database with the application’s front-end, facilitating smooth data exchange and interaction between the database and UI components.
+   - Provided critical feedback and support to the UI/UX team to ensure the front-end design was compatible with database functionalities.
+   - Simulated, tested, and debugged database operations to ensure data integrity and performance.
+
+#### Coding
+1. Contact Database Management (FMDB)
+   - Implemented functions for adding, fetching, updating, and deleting contact records in the database using FMDB.
+   - Created SQL queries to manage contacts efficiently and maintain relationships with related events.
+   - Ensured data validation and handled potential errors during database operations.
+
+2. Database and UI Integration
+   - Developed methods in DatabaseManager.swift to fetch and update contacts, ensuring synchronization between the database and UI.
+   - Implemented functionality to display contact details and their associated events, enhancing the user experience by providing comprehensive contact information.
+   - Created a feature to update contact descriptions using OpenAI, generating natural language summaries of contacts and their related events.
+   - Integrated the contact management features with the UI components in ContactView.swift and ContactDetailView.swift, enabling users to interact with contact data seamlessly.
+   - Facilitated the connection between contacts and events, allowing users to view events associated with specific contacts through intuitive UI interactions.
+
 
 ## Peiran Wang: *Reminder Function*
 #### Design
