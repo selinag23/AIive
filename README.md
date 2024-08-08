@@ -246,7 +246,7 @@ Replace all placeholder with your OpenAI API key in `ChatView.swift`,`ContactVie
 **Contact Database (For Contact Function)**
 |id| Name | Position | Organization |Phone|Email|Social Media|Description|
 | ----- | ---- |---------- | ------|-----------|-------------|---|---|
-|TEXT PRIMARY KEY |TEXT  | TEXT   |TEXT  |TEXT  |TEXT |TEXT|
+|TEXT PRIMARY KEY |TEXT  | TEXT   |TEXT  |TEXT  |TEXT |TEXT|TEXT|
 
 
 **ContactsEventsConnection Database (For Connecting Evnets and Contacts Function)**
