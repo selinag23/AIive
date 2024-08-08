@@ -43,16 +43,13 @@ Team AIive
 
 #### Coding
 1. Contact Database Management (FMDB)
-   - Implemented functions for adding, fetching, updating, and deleting contact records in the database using FMDB.
+   - Implemented functions for adding, fetching, updating, and deleting contact records.
    - Created SQL queries to manage contacts efficiently and maintain relationships with related events.
-   - Ensured data validation and handled potential errors during database operations.
 
-2. Database and UI Integration
-   - Developed methods in DatabaseManager.swift to fetch and update contacts, ensuring synchronization between the database and UI.
-   - Implemented functionality to display contact details and their associated events, enhancing the user experience by providing comprehensive contact information.
+2.Database and UI Integration
+   - Developed methods to fetch and update contacts, ensuring synchronization between the database and UI.
+   - Integrated contact management features with the UI components, enabling seamless user interaction with contact data.
    - Created a feature to update contact descriptions using OpenAI, generating natural language summaries of contacts and their related events.
-   - Integrated the contact management features with the UI components in ContactView.swift and ContactDetailView.swift, enabling users to interact with contact data seamlessly.
-   - Facilitated the connection between contacts and events, allowing users to view events associated with specific contacts through intuitive UI interactions.
 
 
 ## Peiran Wang: *Reminder Function*
