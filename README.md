@@ -34,6 +34,7 @@ Team AIive
 #### Design
 1. Contact Database Schema
    - Designed and implemented the database schema for managing contacts, ensuring efficient storage and retrieval of contact information.
+   - Established relationships between contacts and events using an intermediary table to maintain the connections between them.
 
 2. Work for the team
    - Integrated the contact database with the application’s front-end, facilitating smooth data exchange and interaction between the database and UI components.
@@ -43,7 +44,6 @@ Team AIive
 #### Coding
 1. Contact Database Management (FMDB)
    - Implemented functions for adding, fetching, updating, and deleting contact records.
-   - Created SQL queries to manage contacts efficiently and maintain relationships with related events.
 
 2. Database and UI Integration
    - Developed methods to fetch and update contacts, ensuring synchronization between the database and UI.
