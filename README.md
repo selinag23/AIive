@@ -4,7 +4,7 @@ UM-SJTU JI 2024SU ECE4410J
 Team AIive
 # Team Roster
 
-**Aya Shinkawa:** Memo Function
+## Aya Shinkawa: *Memo Function*
 #### Design
 1. Memo Functionality
    - Designed a comprehensive memo functionality to allow users to create, view, edit, and delete memos.
@@ -30,9 +30,9 @@ Team AIive
    - Implemented the createSummaryMemo method in MemoView.swift to gather the day's events, send the details to ChatGPT, and store the AI-generated summary as a new memo.
    - Enhanced user experience by providing an intelligent, natural language summary of daily activities.
 
-**Anheng Wang:** Contact Function
+## Anheng Wang: *Contact Function*
 
-**Peiran Wang:** Reminder Function
+## Peiran Wang: *Reminder Function*
 #### Design
 
 1. Algorithm for Intelligent Reminder
@@ -52,7 +52,7 @@ Team AIive
    - Delete reminders after being marked as done.
    - Notify the user when the reminding time is coming and delete the notification when marking reminders as done.
 
-**Ruiqi Xu:** UI/UX Design
+## Ruiqi Xu: *UI/UX Design*
 #### Design
 
 1. Overall UX Flow Design
@@ -75,7 +75,7 @@ Team AIive
    - Implemented basic CRUD functions and user interactions in the front-end.
    - Collaborated with the back-end team to define API requirements and troubleshoot integration issues.
 
-**Xin Gong:** Team leader, AI agent, contact-AI application
+## Xin Gong: *Team leader, AI agent, contact-AI application*
 
 
 #### Design
@@ -103,7 +103,7 @@ Team AIive
    - Udating Contact's description with LLM to natural language.
 
 
-**Yan Lu:** Calendar Function
+## Yan Lu: *Calendar Function*
 
 # Getting Started
 
