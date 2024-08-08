@@ -229,7 +229,7 @@ Replace all placeholder with your OpenAI API key in `ChatView.swift`,`ContactVie
 > Describe how your front-end would communicate with your engine: list and describe your APIs. This is only your initial design, you can change them again later, but you should start thinking about and designing how your front end will communicate with your engine. If you're using existing OS subsystem(s) or 3rd-party SDK(s) to implement your engine, describe how you will interact with these.
 
 
-### Database Controller (For Calendar Function)
+### Database Controller
 
 **Events Database (For Calendar Function)**
 |id| title | date | startTime |endTime|description|peopleRelated|tag|addReminder|done|
