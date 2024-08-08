@@ -229,179 +229,37 @@ Replace all placeholder with your OpenAI API key in `ChatView.swift`,`ContactVie
 > Describe how your front-end would communicate with your engine: list and describe your APIs. This is only your initial design, you can change them again later, but you should start thinking about and designing how your front end will communicate with your engine. If you're using existing OS subsystem(s) or 3rd-party SDK(s) to implement your engine, describe how you will interact with these.
 
 
-### Overview
+### Database Controller (For Calendar Function)
 
-**Response Codes**
-| Code              | Description            |
-| ----------------- | ---------------------- |
-| `200 OK`     | Success                |
-| `400 Bad Request` | Invalid parameters     |
-
-**Returns**
-
-*For logged-in users with 1 or more events created*
-| Key        | Location       | Type   | Description  |
-| ---------- | -------------- | ------ | ------------ |
-| `reminders` | JSON | List of to-do events | Events remains to-be-done in events database |
-
-*For logged-in users with 1 or more contacts created*
-| Key        | Location       | Type   | Description  |
-| ---------- | -------------- | ------ | ------------ |
-| `contacts` | JSON |List of contacts basic info | headshot, name, brief description |
+**Event Database (For Calendar Function)**
+| Title | Date | StartTime |EndTime|Description|PeopleRelated|Tag|AddToReminder|eventID|
+| ----- | ---- |---------- | ------|-----------|-------------|---|-------------|---|
+|String |Date  |Time       |Time   |String     |String Array |String|Boolean|ID|
 
 
-
-### Calendar API
-
-**Create Event**
-- **URL**: `/api/events`
-- **Method**: `POST`
-- **Description**: Creates a new calendar event.
-- **Request Parameters**:
-  | Key           | Location | Type   | Description               |
-  | ------------- | -------- | ------ | ------------------------- |
-  | `title`       | Body     | String | Title of the event        |
-  | `description` | Body     | String | Description of the event  |
-  | `start_time`  | Body     | String | Start time of the event   |
-  | `end_time`    | Body     | String | End time of the event     |
-
-**Modify Event**
-- **URL**: `/api/events/:id`
-- **Method**: `PUT`
-- **Description**: Modifies an existing calendar event.
-- **Request Parameters**:
-  | Key           | Location | Type   | Description               |
-  | ------------- | -------- | ------ | ------------------------- |
-  | `id`          | URL      | String | ID of the event           |
-  | `title`       | Body     | String | Title of the event        |
-  | `description` | Body     | String | Description of the event  |
-  | `start_time`  | Body     | String | Start time of the event   |
-  | `end_time`    | Body     | String | End time of the event     |
-
-**Delete Event**
-- **URL**: `/api/events/:id`
-- **Method**: `DELETE`
-- **Description**: Deletes a calendar event.
-- **Request Parameters**:
-  | Key  | Location | Type   | Description   |
-  | ---- | -------- | ------ | ------------- |
-  | `id` | URL      | String | ID of the event |
-
-**Get Events**
-- **URL**: `/api/events`
-- **Method**: `GET`
-- **Description**: Retrieves all calendar events.
-- **Response**:
-  | Key      | Location | Type  | Description           |
-  | -------- | -------- | ----- | --------------------- |
-  | `events` | JSON     | Array | List of calendar events |
-
-### Reminder API
-
-**Create Reminder**
-- **URL**: `/api/reminders`
-- **Method**: `POST`
-- **Description**: Creates a new reminder.
-- **Request Parameters**:
-  | Key           | Location | Type   | Description               |
-  | ------------- | -------- | ------ | ------------------------- |
-  | `event_id`    | Body     | String | ID of the associated event |
-  | `remind_time` | Body     | String | Time to send the reminder  |
-
-**Modify Reminder**
-- **URL**: `/api/reminders/:id`
-- **Method**: `PUT`
-- **Description**: Modifies an existing reminder.
-- **Request Parameters**:
-  | Key           | Location | Type   | Description               |
-  | ------------- | -------- | ------ | ------------------------- |
-  | `id`          | URL      | String | ID of the reminder        |
-  | `event_id`    | Body     | String | ID of the associated event |
-  | `remind_time` | Body     | String | Time to send the reminder  |
-
-**Delete Reminder**
-- **URL**: `/api/reminders/:id`
-- **Method**: `DELETE`
-- **Description**: Deletes a reminder.
-- **Request Parameters**:
-  | Key  | Location | Type   | Description   |
-  | ---- | -------- | ------ | ------------- |
-  | `id` | URL      | String | ID of the reminder |
-
-**Get Reminders**
-- **URL**: `/api/reminders`
-- **Method**: `GET`
-- **Description**: Retrieves all reminders.
-- **Response**:
-  | Key        | Location | Type  | Description           |
-  | ---------- | -------- | ----- | --------------------- |
-  | `reminders`| JSON     | Array | List of reminders      |
-
-### Contact API
-
-**Add Contact**
-- **URL**: `/api/contacts`
-- **Method**: `POST`
-- **Description**: Adds a new contact.
-- **Request Parameters**:
-  | Key      | Location | Type   | Description             |
-  | -------- | -------- | ------ | ----------------------- |
-  | `name`   | Body     | String | Name of the contact     |
-  | `email`  | Body     | String | Email of the contact    |
-  | `phone`  | Body     | String | Phone number of the contact |
-  | `notes`  | Body     | String | Additional notes        |
-
-**Query Contact**
-- **URL**: `/api/contacts/:id`
-- **Method**: `GET`
-- **Description**: Retrieves contact information by ID.
-- **Request Parameters**:
-  | Key  | Location | Type   | Description       |
-  | ---- | -------- | ------ | ----------------- |
-  | `id` | URL      | String | ID of the contact |
-
-**Delete Contact**
-- **URL**: `/api/contacts/:id`
-- **Method**: `DELETE`
-- **Description**: Deletes a contact.
-- **Request Parameters**:
-  | Key  | Location | Type   | Description       |
-  | ---- | -------- | ------ | ----------------- |
-  | `id` | URL      | String | ID of the contact |
-
-**Get All Contacts**
-- **URL**: `/api/contacts`
-- **Method**: `GET`
-- **Description**: Retrieves all contacts.
-- **Response**:
-  | Key      | Location | Type  | Description           |
-  | -------- | -------- | ----- | --------------------- |
-  | `contacts` | JSON   | Array | List of contacts      |
-
-### Diary API
-
-**Add Entry**
-- **URL**: `/api/diaries`
-- **Method**: `POST`
-- **Description**: Adds a new diary entry.
-- **Request Parameters**:
-  | Key           | Location | Type   | Description               |
-  | ------------- | -------- | ------ | ------------------------- |
-  | `content`     | Body     | String | Content of the diary entry |
-  | `date`        | Body     | String | Date of the diary entry    |
-
-**Get Entries**
-- **URL**: `/api/diaries`
-- **Method**: `GET`
-- **Description**: Retrieves all diary entries.
-- **Response**:
-  | Key      | Location | Type  | Description           |
-  | -------- | -------- | ----- | --------------------- |
-  | `entries`| JSON     | Array | List of diary entries  |
+**Reminder Database (For Reminder Function)**
+| Title | Date | StartTime |EndTime|Description|PeopleRelated|Tag|
+| ----- | ---- |---------- | ------|-----------|-------------|---|
+|String |Date  |Time       |Time   |String     |String Array |String|
 
 
+**Contact Database (For Contact Function)**
+| Name | Position | Organization |Phone|Email|Social Media|Description|contactID|
+| ----- | ---- |---------- | ------|-----------|-------------|---|---|
+|String |String  |String       |String  |String    |String |String|ID|
 
-## Third-Party SDKs
+**Memo Database (For Memo Function)**
+| Title | Content | Date |Time|
+| ----- | ---- |---------- |---|
+|String |String  |Date| Time|
+
+**ContactsEventsConnection Database (For Connecting Evnets and Contacts Function)**
+| eventID | contactID |
+| ----- | ---- |
+|ID |ID |
+
+
+### API
 
 **OpenAI API**
 - **Description**: Provides access to OpenAI's language models for natural language understanding and generation.
