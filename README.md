@@ -125,6 +125,27 @@ Team AIive
 
 ## Yan Lu: *Calendar Function*
 
+#### Design
+
+1. Calendar Functionality
+   - Design the calendar functionality to allow users to create, edit and delete calendar events。
+  
+2. Contact Searching Algorithm
+   - Using text extracting skills to extract string containing people related to name elements
+   - By some arithmetic and set operation, calculate the similarity of names in 'people related' of the events and names in contact
+   - Return the target contact for Contact-Event linking.
+
+
+#### Coding
+
+1. Calendar Events Management
+   - Back-end implementation for creating, editing and deleting calendar events.
+   - Display undone events for the day as a list and grouped by tags.
+   - Simplify the management action for user’s convenience
+  
+2. Contact Searching
+   - Implement the contact searching algorithm.
+
 # Getting Started
 
 **Contact and Schedule Manager App**
