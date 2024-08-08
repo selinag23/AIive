@@ -107,7 +107,7 @@ Team AIive
 
 # Getting Started
 
-# Contact and Schedule Manager App
+**Contact and Schedule Manager App**
 
 This iOS app allows users to manage contacts and schedules by interacting with a natural language interface powered by ChatGPT. It supports adding new contacts, reminders and schedules to a local database and querying existing information through conversational commands.
 
