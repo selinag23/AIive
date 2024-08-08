@@ -34,7 +34,6 @@ Team AIive
 #### Design
 1. Contact Database Schema
    - Designed and implemented the database schema for managing contacts, ensuring efficient storage and retrieval of contact information.
-   - Established relationships between contacts and events using an intermediary table to maintain the connections between them.
 
 2. Work for the team
    - Integrated the contact database with the application’s front-end, facilitating smooth data exchange and interaction between the database and UI components.
