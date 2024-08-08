@@ -2,39 +2,72 @@
 UM-SJTU JI 2024SU ECE4410J 
 
 Team AIive
+# Team Roster
+
+**Aya Shinkawa:** Memo Function
+
+**Anheng Wang:** Contact Function
+
+**Peiran Wang:** Reminder Function
+
+**Ruiqi Xu:** UI/UX Design
+
+**Xin Gong:** Team leader, general idea proposal. Coding and testing for AI Chat function, openai API connection, backend communicate with chat function, analyze chat and connect chat instructions to process Events and Contacts database (store or query).
+
+**Yan Lu:** Calendar Function
 
 # Getting Started
 
-> Documentation on how to build and run your project. For now, simply list and provide a link to all 3rd-party tools, libraries, SDKs, APIs your project will rely on directly, that is, you don't need to list libraries that will be installed automatically as dependencies when installing the libraries you rely on directly. List both front-end and back-end dependencies.
+# Contact and Schedule Manager App
 
+This iOS app allows users to manage contacts and schedules by interacting with a natural language interface powered by ChatGPT. It supports adding new contacts, reminders and schedules to a local database and querying existing information through conversational commands.
 
-### Front-End
+## Features
 
-- **[Semantic UI React](https://react.semantic-ui.com/)**: A development framework that helps create beautiful, responsive layouts using human-friendly HTML.
-- **[Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)**: Provides an interface to control speech synthesis and recognition, allowing the app to understand and produce spoken language.
-- **[Axios](https://axios-http.com/)**: A promise-based HTTP client for the browser and Node.js. It makes it easy to send asynchronous HTTP requests to REST endpoints and perform CRUD operations.
-- **[CalendarKit](https://github.com/richardtop/CalendarKit)**: A Swift-based framework for creating a customizable calendar view in iOS apps.
-- **[Reminder](https://developer.apple.com/tutorials/app-dev-training/adding-and-deleting-reminders)**: Apple's tutorial for adding and deleting reminders in an iOS app using EventKit.
-- **[EventKit](https://medium.com/@rohit.jankar/using-swift-a-guide-to-adding-reminders-in-the-ios-reminder-app-with-the-eventkit-api-020b2e6b38bb)**: A framework that provides access to calendar and reminder data, allowing the app to create, edit, and delete events and reminders.
+- **Contact Management:** Add, view, and search contacts using natural language.
+- **Schedule Management:** Create, view, and search schedules using natural language.
+- **AI Integration:** Utilize ChatGPT to parse and understand natural language inputs.
 
-### Back-End 
+## Requirements
 
-- **[SQLAlchemy](https://www.sqlalchemy.org/)**: A SQL toolkit and Object-Relational Mapping (ORM) library for Python. It provides tools to work with relational databases in a more Pythonic way.
-- **[SQLite](https://www.sqlite.org/index.html)**: A C library that provides a lightweight, disk-based database. It doesn't require a separate server process, making it easy to set up and use.
-- **[OAuth 2.0](https://oauth.net/2/)**: An authorization framework that allows applications to obtain limited access to user accounts on an HTTP service.
-- **[Elasticsearch](https://www.elastic.co/elasticsearch/)**: A distributed, RESTful search and analytics engine capable of storing and searching large volumes of data.
-- **[OpenAI API](https://beta.openai.com/docs/)**: Provides access to OpenAI's language models, enabling natural language understanding and generation in your application.
-- **[PostgreSQL](https://www.postgresql.org/)**: A powerful, open-source object-relational database system known for its reliability and feature set.
-- **[Flask](https://flask.palletsprojects.com/)**: A lightweight WSGI web application framework for Python. It is designed to make getting started quick and easy, with the ability to scale up to complex applications.
-- **[spaCy](https://spacy.io/)**: An open-source software library for advanced natural language processing in Python.
-- **[NLTK](https://www.nltk.org/)**: The Natural Language Toolkit is a Python library for natural language processing.
-- **[Gensim](https://radimrehurek.com/gensim/)**: A Python library for topic modeling and document similarity analysis using modern statistical machine learning.
-- **[Hugging Face Transformers](https://huggingface.co/transformers/)**: A library that provides general-purpose architectures for Natural Language Understanding (NLU) and Natural Language Generation (NLG) with pretrained models.
-- **[Google Cloud Speech-to-Text API](https://cloud.google.com/speech-to-text)**: Converts audio to text by applying powerful neural network models in an easy-to-use API.
-- **[Microsoft Azure Speech API](https://azure.microsoft.com/en-us/services/cognitive-services/speech-to-text/)**: Converts spoken audio to text, translates spoken languages, and synthesizes speech from text.
+- **iOS 14.0** or later
+- **Xcode 12.0** or later
+- **Swift 5.0**
+- **OpenAI API Key**
 
+## Setup
 
+### Prerequisites
 
+1. **Xcode Installation:**
+   - Download and install Xcode from the [Mac App Store](https://apps.apple.com/us/app/xcode/id497799835).
+   - For detailed instructions on setting up Xcode, refer to [Apple's official documentation](https://developer.apple.com/support/xcode/).
+
+2. **OpenAI API Key:**
+   - Sign up or log in to [OpenAI](https://beta.openai.com/docs/) to obtain your API key.
+   - Ensure that your API key is set up in the app's corresponding required file (`ChatView.swift`,`ContactView.swift`,`MemoOpenAI.swift`).
+
+3. **FMDB Package:**
+   - This app uses [FMDB](https://github.com/ccgus/fmdb) for database management.
+   - You can add FMDB to your project using Swift Package Manager:
+     - In Xcode, go to `File > Swift Packages > Add Package Dependency`.
+     - Enter the FMDB repository URL: `https://github.com/ccgus/fmdb`.
+     - Follow the prompts to add the package to your project.
+
+### Project Setup
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/selinag23/AIive.git
+   
+2. **Open the Project in Xcode:**
+
+Navigate to the project directory and open ContactScheduleManager.xcodeproj.
+
+3. **Configure OpenAI API Key:**
+
+Replace all placeholder with your OpenAI API key in `ChatView.swift`,`ContactView.swift`,`MemoOpenAI.swift`.
 
 # Model and Engine
 
@@ -126,18 +159,12 @@ Team AIive
 ![db](https://github.com/selinag23/AIive/assets/116231204/beaa2d5a-ecfc-4964-8fe2-50164c925af9)
 
 
-# APIs and Controller
+# APIs and Database Controller
 
 > Describe how your front-end would communicate with your engine: list and describe your APIs. This is only your initial design, you can change them again later, but you should start thinking about and designing how your front end will communicate with your engine. If you're using existing OS subsystem(s) or 3rd-party SDK(s) to implement your engine, describe how you will interact with these.
 
 
 ### Overview
-
-**Request Parameters**
-| Key        | Location | Type   | Description      |
-| ---------- | -------- | ------ | ---------------- |
-| `username` | Session Cookie| String | Current User |
-| `event` | Session Cookie| String | Event Data |
 
 **Response Codes**
 | Code              | Description            |
@@ -315,6 +342,7 @@ Team AIive
 - **Description**: Provides access to OpenAI's language models for natural language understanding and generation.
 - **Interaction**: The front end will send text inputs to the OpenAI API and receive processed language outputs for various functionalities such as chat responses and command processing.
 
+**Future might use:**
 **Google Cloud Speech-to-Text API**
 - **Description**: Converts audio to text using Google's powerful neural network models.
 - **Interaction**: The app will use this API to convert user voice inputs into text, which can then be processed by the AI agent.
@@ -322,14 +350,6 @@ Team AIive
 **Microsoft Azure Speech API**
 - **Description**: Converts spoken audio to text, translates spoken languages, and synthesizes speech from text.
 - **Interaction**: Similar to Google Cloud Speech-to-Text, this API will be used to handle voice inputs and outputs within the app.
-
-**CalendarKit**
-- **Description**: A framework for creating a customizable calendar view in iOS apps.
-- **Interaction**: The front end will use CalendarKit to display calendar events and manage user interactions with the calendar.
-
-**EventKit**
-- **Description**: A framework for accessing and manipulating calendar and reminder data on iOS.
-- **Interaction**: The app will use EventKit to integrate with the user's calendar and reminders, allowing seamless creation, modification, and deletion of events and reminders.
 
 
 
@@ -341,16 +361,4 @@ Designing the UI/UX for an AI agent that manages calendar, reminders, contacts, 
 ![[UI/UX protytpe](UI/UX.png)](https://github.com/selinag23/AIive/blob/main/UI%3AUX.png)
 
 
-# Team Roster
 
-**Aya Shinkawa:** Memo Function
-
-**Anheng Wang:** Contact Function
-
-**Peiran Wang:** Reminder Function
-
-**Ruiqi Xu:** UI/UX Design
-
-**Xin Gong:** AI Chat
-
-**Yan Lu:** Calendar Function
