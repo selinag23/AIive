@@ -231,22 +231,22 @@ Replace all placeholder with your OpenAI API key in `ChatView.swift`,`ContactVie
 
 ### Database Controller (For Calendar Function)
 
-**Event Database (For Calendar Function)**
-| Title | Date | StartTime |EndTime|Description|PeopleRelated|Tag|AddToReminder|eventID|
-| ----- | ---- |---------- | ------|-----------|-------------|---|-------------|---|
-|String |Date  |Time       |Time   |String     |String Array |String|Boolean|ID|
+**Events Database (For Calendar Function)**
+|id| title | date | startTime |endTime|description|peopleRelated|tag|addReminder|done|
+|---| ----- | ---- |---------- | ------|-----------|-------------|---|-------------|---|
+|TEXT PRIMARY KEY|TEXT |Date  |Date       |Date |TEXT    |TEXT |TEXT|INTEGER|INTEGER|
 
 
-**Reminder Database (For Reminder Function)**
-| Title | Date | StartTime |EndTime|Description|PeopleRelated|Tag|
-| ----- | ---- |---------- | ------|-----------|-------------|---|
-|String |Date  |Time       |Time   |String     |String Array |String|
+**Reminders Database (For Reminder Function)**
+|id| title | date | startTime |endTime|description|peopleRelated|tag|addReminder|done|
+|---| ----- | ---- |---------- | ------|-----------|-------------|---|-------------|---|
+|TEXT PRIMARY KEY|TEXT |Date  |Date       |Date |TEXT    |TEXT |TEXT|INTEGER|INTEGER|
 
 
 **Contact Database (For Contact Function)**
-| Name | Position | Organization |Phone|Email|Social Media|Description|contactID|
+|id| Name | Position | Organization |Phone|Email|Social Media|Description|
 | ----- | ---- |---------- | ------|-----------|-------------|---|---|
-|String |String  |String       |String  |String    |String |String|ID|
+|TEXT PRIMARY KEY |TEXT  | TEXT   |TEXT  |TEXT  |TEXT |TEXT|
 
 **Memo Database (For Memo Function)**
 | Title | Content | Date |Time|
@@ -254,9 +254,9 @@ Replace all placeholder with your OpenAI API key in `ChatView.swift`,`ContactVie
 |String |String  |Date| Time|
 
 **ContactsEventsConnection Database (For Connecting Evnets and Contacts Function)**
-| eventID | contactID |
-| ----- | ---- |
-|ID |ID |
+| eventID | contactID |PRIMARY KEY(eventID, contactID)
+| ----- | ---- |---|
+|TEXT |TEXT |
 
 
 ### API
