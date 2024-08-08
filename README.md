@@ -9,7 +9,7 @@ Team AIive
 **Anheng Wang:** Contact Function
 
 **Peiran Wang:** Reminder Function
-### Design
+#### Design
 
 1. Algorithm for Intelligent Reminder
    - Design the basic, natural, intuitive algorithm for intelligent reminder, as a prior before training Large Language Model.
@@ -20,7 +20,7 @@ Team AIive
    - Simulate, test and debug.
 
 
-### Coding
+#### Coding
 
 1. Intelligent Reminder
    - Synchronize the calendar events which needs to be reminded to reminder.
