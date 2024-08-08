@@ -11,10 +11,55 @@ Team AIive
 **Peiran Wang:** Reminder Function
 
 **Ruiqi Xu:** UI/UX Design
+#### Design
+
+1. Overall UX Flow Design
+   - Conducted user research to understand the needs and pain points of the target audience.
+   - Created detailed wireframes and flowcharts to map out the user journey and interactions.
+   - Conducted usability testing to gather feedback and refine the UX flow, ensuring a seamless and intuitive experience for users.
+
+2. Overall UI Prototype Design
+   - Designed high-fidelity UI prototypes using industry-standard tool Figma.
+   - Focused on creating a visually appealing and consistent interface that aligns with the branding guidelines.
+   - Ensured accessibility standards were met, making the application usable for people.
+   - Iterated on the design based on user feedback and testing results to optimize the user interface.
+   - Collaborated with developers to ensure the feasibility of the design and smooth transition from prototype to implementation.
+
+#### Coding
+
+1. Front-End Implementation (SwiftUI)
+   - Developed the entire front-end of the application using SwiftUI, Apple's framework for building user interfaces.
+   - Implemented complex UI components to enhance user engagement and satisfaction.
+   - Implemented basic CRUD functions and user interactions in the front-end.
+   - Collaborated with the back-end team to define API requirements and troubleshoot integration issues.
 
 **Xin Gong:** Team leader, AI agent, contact-AI application
 
-Team leader, general idea proposal. Coding and testing for AI Chat function, openai API connection, backend communicate with chat function, analyzing chat and connecting chat instructions to process Events and Contacts database (insert or query data), function of finding each contacts's attended events and updating description with LLM for them.
+
+#### Design
+1. Team Leader
+   - Proposed the general idea and vision for the project.
+   - Monitor and assign tasks for all teammates for the project.
+2. Engine
+   - Wrote program architecture document for the project
+   - Led the development and testing of the AI chat function.
+   - Performed extensive testing to validate the application's functionality and user experience.
+   - Established the OpenAI API connection for seamless integration with the chat interface.
+
+
+#### Coding
+1. AI Agent
+   - Designed the conversational logic and natural language processing capabilities for the chat function.
+   - Developed algorithms to extract contact and event information from user queries through chat.
+   - Ensure accurate data retrieval and insertion into the database.
+   - Analyzed chat inputs to connect instructions to the Events and Contacts database for data insertion and querying.
+   - Integrated LLM capabilities to enhance the chatbot's responses and contextual understanding.
+
+2. Contact-AI Application
+   - Coordinated with the AI agent to enable seamless integration of AI-driven insights into the application.
+   - Finding each contacts's attended events with SQL
+   - Udating Contact's description with LLM to natural language.
+
 
 **Yan Lu:** Calendar Function
 
