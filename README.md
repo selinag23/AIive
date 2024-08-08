@@ -7,28 +7,28 @@ Team AIive
 **Aya Shinkawa:** Memo Function
 #### Design
 1. Memo Functionality
-- Designed a comprehensive memo functionality to allow users to create, view, edit, and delete memos.
-- Conceptualized the automated daily summary feature that compiles events into a cohesive report using AI.
+   - Designed a comprehensive memo functionality to allow users to create, view, edit, and delete memos.
+   - Conceptualized the automated daily summary feature that compiles events into a cohesive report using AI.
 
 2. Work for the team
-- Coordinated with team members to ensure smooth integration of the memo function with other application features.
-- Provided insights and feedback on overall application design and functionality.
-- Simulated, tested, and debugged the memo functionalities to ensure robustness and reliability.
+   - Coordinated with team members to ensure smooth integration of the memo function with other application features.
+   - Provided insights and feedback on overall application design and functionality.
+   - Simulated, tested, and debugged the memo functionalities to ensure robustness and reliability.
 
 #### Coding
 1. Memo Management
-- Developed the user interface for the memo function using SwiftUI, enabling users to manage their memos efficiently.
-- Implemented dynamic state management to handle memo data across different views, ensuring a seamless user experience.
+   - Developed the user interface for the memo function using SwiftUI, enabling users to manage their memos efficiently.
+   - Implemented dynamic state management to handle memo data across different views, ensuring a seamless user experience.
 
 2. Database Integration (FMDB)
-- Utilized FMDB to handle persistent storage of memos, implementing functions to add, fetch, update, and delete memo records.
-- Ensured data integrity and efficient retrieval of memos, stored with attributes such as title, context, and date.
+   - Utilized FMDB to handle persistent storage of memos, implementing functions to add, fetch, update, and delete memo records.
+   - Ensured data integrity and efficient retrieval of memos, stored with attributes such as title, context, and date.
 
 3. AI-Powered Daily Summary
-- Integrated OpenAI’s API to automate the generation of daily summaries.
-- Created the MemoOpenAI class to send raw event data to ChatGPT and receive a natural language summary.
-- Implemented the createSummaryMemo method in MemoView.swift to gather the day's events, send the details to ChatGPT, and store the AI-generated summary as a new memo.
-- Enhanced user experience by providing an intelligent, natural language summary of daily activities.
+   - Integrated OpenAI’s API to automate the generation of daily summaries.
+   - Created the MemoOpenAI class to send raw event data to ChatGPT and receive a natural language summary.
+   - Implemented the createSummaryMemo method in MemoView.swift to gather the day's events, send the details to ChatGPT, and store the AI-generated summary as a new memo.
+   - Enhanced user experience by providing an intelligent, natural language summary of daily activities.
 
 **Anheng Wang:** Contact Function
 
