@@ -46,7 +46,7 @@ Team AIive
    - Implemented functions for adding, fetching, updating, and deleting contact records.
    - Created SQL queries to manage contacts efficiently and maintain relationships with related events.
 
-2.Database and UI Integration
+2. Database and UI Integration
    - Developed methods to fetch and update contacts, ensuring synchronization between the database and UI.
    - Integrated contact management features with the UI components, enabling seamless user interaction with contact data.
    - Created a feature to update contact descriptions using OpenAI, generating natural language summaries of contacts and their related events.
