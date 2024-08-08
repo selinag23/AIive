@@ -12,7 +12,9 @@ Team AIive
 
 **Ruiqi Xu:** UI/UX Design
 
-**Xin Gong:** Team leader, general idea proposal. Coding and testing for AI Chat function, openai API connection, backend communicate with chat function, analyze chat and connect chat instructions to process Events and Contacts database (store or query).
+**Xin Gong:** Team leader, AI agent, contact-AI application
+
+Team leader, general idea proposal. Coding and testing for AI Chat function, openai API connection, backend communicate with chat function, analyzing chat and connecting chat instructions to process Events and Contacts database (insert or query data), function of finding each contacts's attended events and updating description with LLM for them.
 
 **Yan Lu:** Calendar Function
 
