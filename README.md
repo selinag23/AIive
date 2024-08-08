@@ -230,7 +230,7 @@ Replace all placeholder with your OpenAI API key in `ChatView.swift`,`ContactVie
 
 
 ### Database Controller
-
+### DatabaseManager.swift
 **Events Database (For Calendar Function)**
 |id| title | date | startTime |endTime|description|peopleRelated|tag|addReminder|done|
 |---| ----- | ---- |---------- | ------|-----------|-------------|---|-------------|---|
@@ -248,16 +248,18 @@ Replace all placeholder with your OpenAI API key in `ChatView.swift`,`ContactVie
 | ----- | ---- |---------- | ------|-----------|-------------|---|---|
 |TEXT PRIMARY KEY |TEXT  | TEXT   |TEXT  |TEXT  |TEXT |TEXT|
 
-**Memo Database (For Memo Function)**
-| Title | Content | Date |Time|
-| ----- | ---- |---------- |---|
-|String |String  |Date| Time|
 
 **ContactsEventsConnection Database (For Connecting Evnets and Contacts Function)**
 | eventID | contactID |PRIMARY KEY(eventID, contactID)
 | ----- | ---- |---|
 |TEXT |TEXT |
 
+
+### MemoDB.swift
+**Memo Database (For Memo Function)**
+| id | title | context |date|
+| ----- | ---- |---------- |---|
+|TEXT PRIMARY KEY |TEXT  |TEXT |REAL|
 
 ### API
 
