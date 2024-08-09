@@ -31,24 +31,46 @@ Team AIive
    - Enhanced user experience by providing an intelligent, natural language summary of daily activities.
 
 ## Anheng Wang: *Contact Function*
+
 #### Design
-1. Contact Database Schema
-   - Designed and implemented the database schema for managing contacts, ensuring efficient storage and retrieval of contact information.
-   - Established relationships between contacts and events using an intermediary table to maintain the connections between them.
+1. Contact Management Module
+   - This module is a part of a larger SwiftUI-based application, providing functionalities to manage contacts. It allows users to create, edit, delete, and organize their contacts, with data persistence handled via FMDB.
 
-2. Work for the team
-   - Integrated the contact database with the application’s front-end, facilitating smooth data exchange and interaction between the database and UI components.
-   - Provided critical feedback and support to the UI/UX team to ensure the front-end design was compatible with database functionalities.
-   - Simulated, tested, and debugged database operations to ensure data integrity and performance.
+2. Features
+   - Add New Contacts: Easily add new contacts with fields such as name, position, organization, phone number, email, social media, and a description.
+   - Edit Existing Contacts: Modify the details of existing contacts.
+   - Delete Contacts: Remove contacts from the list with a simple swipe gesture.
+   - Search Contacts: Quickly search for contacts by name.
+   - Alphabetical Navigation: Navigate through contacts efficiently using an alphabetical sidebar.
+   - Persistent Storage: All contact data is stored in a local SQLite database using FMDB, ensuring that data is preserved across sessions.
+  
+#### Coding: Implementation Details
 
-#### Coding
-1. Contact Database Management (FMDB)
-   - Implemented functions for adding, fetching, updating, and deleting contact records.
+1. Core Components
+   - Contact Model
+     - The `Contact` struct defines the data model for a contact.
+     - Fields include `name`, `position`, `organization`, `phone`, `email`, `socialMedia`, and `description`.
+     - Implements the `Identifiable` protocol to work seamlessly with SwiftUI views.
+   - ContactView
+     - Displays a list of contacts with the ability to search, navigate alphabetically, and interact with individual contacts.
+     - Supports deletion of contacts and provides navigation to detailed contact views.
+   - CreateContactView
+     - A form-based view for creating new contacts.
+     - Allows users to input all relevant contact information and save it to the contact list.
+   - EditContactView
+     - Similar to `CreateContactView` but pre-populated with existing contact data for editing.
+     - Updates the contact information and persists the changes.
+   - DatabaseManager
+     - Handles all database operations, including fetching, adding, updating, and deleting contacts.
+     - Uses FMDB to interact with a SQLite database, ensuring data is stored persistently.
 
-2. Database and UI Integration
-   - Developed methods to fetch and update contacts, ensuring synchronization between the database and UI.
-   - Integrated contact management features with the UI components, enabling seamless user interaction with contact data.
-   - Created a feature to update contact descriptions using OpenAI, generating natural language summaries of contacts and their related events.
+2. Integration Steps
+   - Add the Module to Your Project
+     - Include the `Contact`, `ContactView`, `CreateContactView`, `EditContactView`, and `DatabaseManager` classes and structs in your project.
+   - Set Up the Database
+     - Initialize and configure the `DatabaseManager` to ensure the SQLite database is set up correctly.
+   - Incorporate into Your App
+     - Add navigation to the `ContactView` within your app to allow users to manage their contacts.
 
 
 ## Peiran Wang: *Reminder Function*
